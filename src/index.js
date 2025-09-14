@@ -1,12 +1,21 @@
 import "./style.css";
-import { greeting } from "./greeting.js";
+import { createTodo } from "./logics/todo";
+import { createProject } from "./logics/project";
 
-function component() {
-  const element = document.createElement("div");
-  element.innerHTML = greeting;
-  element.classList.add("hello"); // Добавим класс для примера стилизации
-  return element;
-}
+const project1 = createProject("Покупки");
+const project2 = createProject("Работа");
 
-document.getElementById("app").appendChild(component());
-console.log("Логика приложения запущена!");
+const todo1 = createTodo("Купить молоко", "...", "2025-09-15", "hight");
+const todo2 = createTodo("Написать отчёт", "...", "2025-09-16", "medium");
+const todo3 = createTodo("Захватить мир", "...", "2025-12-31", "low");
+
+project1.todos.push(todo1);
+project2.todos.push(todo2);
+project2.todos.push(todo3);
+
+const appState = {
+  projects: [project1, project2],
+  currentProjectId: project1.id,
+};
+
+console.log(appState);
