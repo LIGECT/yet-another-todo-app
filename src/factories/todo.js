@@ -1,5 +1,5 @@
 function createTodo(title, description, dueDate, priority) {
-  const newId = "todo-" + Date.now();
+  const newId = crypto.randomUUID();
 
   return {
     id: newId,

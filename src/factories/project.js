@@ -1,5 +1,5 @@
 function createProject(name) {
-  const newId = "project-" + Date.now();
+  const newId = crypto.randomUUID();
 
   return {
     id: newId,

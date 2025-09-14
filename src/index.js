@@ -1,6 +1,6 @@
 import "./style.css";
 import { appState } from "./data/initialData.js";
-import { render } from "./UI/ui.js";
+import { render, handleProjectClicks } from "./UI/ui.js";
 import { createTodo } from "./factories/todo.js";
 
 const input = document.getElementById("new-todo-input");
@@ -29,5 +29,7 @@ function handleEnterPress(event) {
 }
 
 input.addEventListener("keydown", handleEnterPress);
+
+handleProjectClicks(appState);
 
 render(appState);
