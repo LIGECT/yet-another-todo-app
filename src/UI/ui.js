@@ -1,3 +1,6 @@
+import { renderSidebar } from "./components/Sidebar";
+import { renderMainContent } from "./components/MainContent";
+
 export function handleProjectClicks(state) {
   const appContainer = document.getElementById("app");
 
@@ -8,33 +11,18 @@ export function handleProjectClicks(state) {
       const projectId = projectElement.dataset.projectId;
       state.currentProjectId = projectId;
       render(state);
-      console.log("Кликнули по проекту! ID этого проекта:", projectId);
+      console.log("Clicked on a project! Project ID:", projectId);
     } else {
-      console.log("Кликнули по какой-то хуйне, игнорируем.");
+      console.log("Clicked somewhere else, ignoring.");
     }
   });
 }
 
 export function render(state) {
-  const contentDiv = document.getElementById("app");
-  contentDiv.innerHTML = "";
-  const fragment = document.createDocumentFragment();
-  state.projects.forEach((project) => {
-    const projectBlock = document.createElement("div");
-    projectBlock.dataset.projectId = project.id;
-    const projectTitle = document.createElement("h2");
-    projectTitle.textContent = project.name;
+  const currentProject = state.projects.find(
+    (p) => p.id === state.currentProjectId
+  );
 
-    const todoList = document.createElement("ul");
-
-    project.todos.forEach((todo) => {
-      const todoItem = document.createElement("li");
-      todoItem.textContent = todo.title;
-      todoList.appendChild(todoItem);
-    });
-    projectBlock.append(projectTitle, todoList);
-    fragment.append(projectBlock);
-  });
-
-  contentDiv.appendChild(fragment);
+  renderSidebar(state.projects, state.currentProjectId);
+  renderMainContent(currentProject);
 }

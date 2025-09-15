@@ -1,7 +1,7 @@
 import "./style.css";
 import { appState } from "./data/initialData.js";
 import { render, handleProjectClicks } from "./UI/ui.js";
-import { createTodo } from "./factories/todo.js";
+import { Todo } from "./models/Todo.js";
 
 const input = document.getElementById("new-todo-input");
 
@@ -17,10 +17,10 @@ function handleEnterPress(event) {
   );
 
   if (!currentProject) {
-    console.log("Текущий проэкт не найден"); // Кстати, а где остальные параметры? dueDate, priority? Пока похуй, но потом надо будет.
+    console.error("Current project not found");
   }
 
-  const newTodo = createTodo(inputText);
+  const newTodo = new Todo(inputText);
   currentProject.todos.push(newTodo);
 
   render(appState);
