@@ -6,7 +6,7 @@
 
 body {
   font-family: "Courier New", Courier, monospace;
-  background-color: #f0f0f0;
+  background-color: #fafafa;
   color: #333;
 }
 
@@ -32,6 +32,10 @@ body {
   padding: 1rem;
 }
 
+h2 {
+  cursor: pointer;
+}
+
 .active-project {
   background-color: #e0e0e0;
   padding-left: 3px;
@@ -39,5 +43,6 @@ body {
 }
 
 .active-project h2 {
+  cursor: default;
   color: #007bff;
 }

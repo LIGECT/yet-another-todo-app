@@ -28,8 +28,15 @@ function handleEnterPress(event) {
   input.value = "";
 }
 
+function deleteTodo(state, todoId) {
+  const project = state.projects.find((p) => p.id === state.currentProjectId);
+  if (project) {
+    project.todos = project.todos.filter((t) => t.id !== todoId);
+  }
+}
+
 input.addEventListener("keydown", handleEnterPress);
 
-handleProjectClicks(appState);
+handleProjectClicks(appState, deleteTodo);
 
 render(appState);

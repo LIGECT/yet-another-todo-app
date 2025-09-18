@@ -1,17 +1,25 @@
 import { renderSidebar } from "./components/Sidebar";
 import { renderMainContent } from "./components/MainContent";
 
-export function handleProjectClicks(state) {
+export function handleProjectClicks(state, deleteTodoFunc) {
   const appContainer = document.getElementById("app");
 
   appContainer.addEventListener("click", function (event) {
     const projectElement = event.target.closest("[data-project-id]");
+    const clickedButton = event.target.closest(".delete-todo-btn");
 
     if (projectElement) {
       const projectId = projectElement.dataset.projectId;
       state.currentProjectId = projectId;
       render(state);
       console.log("Clicked on a project! Project ID:", projectId);
+    } else if (clickedButton) {
+      const todoLi = clickedButton.closest("[data-todo-id]");
+      const todoId = todoLi.dataset.todoId;
+      console.log(todoId);
+
+      deleteTodoFunc(state, todoId);
+      render(state);
     } else {
       console.log("Clicked somewhere else, ignoring.");
     }

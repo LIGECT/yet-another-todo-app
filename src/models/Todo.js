@@ -9,18 +9,3 @@ export class Todo {
   }
   // toggleComplete() { this.completed = !this.completed; }
 }
-
-// function createTodo(title, description, dueDate, priority) {
-//   const newId = crypto.randomUUID();
-
-//   return {
-//     id: newId,
-//     title,
-//     description: description,
-//     dueDate: dueDate,
-//     priority: priority,
-//     completed: false,
-//   };
-// }
-
-// export { createTodo };

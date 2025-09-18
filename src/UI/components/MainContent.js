@@ -12,7 +12,12 @@ export function renderMainContent(project) {
   if (project) {
     project.todos.forEach((todo) => {
       const todoItem = document.createElement("li");
+      todoItem.dataset.todoId = todo.id;
       todoItem.textContent = todo.title;
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "X";
+      deleteButton.className = "delete-todo-btn";
+      todoItem.appendChild(deleteButton);
       todoList.appendChild(todoItem);
     });
   }
