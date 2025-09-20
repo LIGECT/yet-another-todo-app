@@ -13,11 +13,43 @@ export function renderMainContent(project) {
     project.todos.forEach((todo) => {
       const todoItem = document.createElement("li");
       todoItem.dataset.todoId = todo.id;
-      todoItem.textContent = todo.title;
+
+      const titleDiv = document.createElement("div");
+      titleDiv.textContent = todo.title;
+
+      const description = document.createElement("p");
+      description.textContent = todo.description;
+
+      const spanDate = document.createElement("span");
+      spanDate.textContent = todo.dueDate;
+
+      const priority = document.createElement("button");
+      priority.textContent = todo.priority;
+
+      const completed = document.createElement("input");
+      completed.type = "checkbox";
+      completed.checked = todo.completed;
+      completed.id = `todo-completed-${todo.id}`;
+      completed.name = "completed";
+
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "X";
       deleteButton.className = "delete-todo-btn";
-      todoItem.appendChild(deleteButton);
+
+      const editButton = document.createElement("button");
+      editButton.textContent = "Edit";
+      editButton.className = "edit-todo-btn";
+
+      todoItem.append(
+        titleDiv,
+        description,
+        spanDate,
+        priority,
+        completed,
+        deleteButton,
+        editButton
+      );
+
       todoList.appendChild(todoItem);
     });
   }
