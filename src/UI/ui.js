@@ -6,20 +6,13 @@ export function handleProjectClicks(state, deleteTodoFunc) {
 
   appContainer.addEventListener("click", function (event) {
     const projectElement = event.target.closest("[data-project-id]");
-    const clickedButton = event.target.closest(".delete-todo-btn");
+    // const clickedButton = event.target.closest(".delete-todo-btn");
 
     if (projectElement) {
       const projectId = projectElement.dataset.projectId;
       state.currentProjectId = projectId;
       render(state);
       console.log("Clicked on a project! Project ID:", projectId);
-    } else if (clickedButton) {
-      const todoLi = clickedButton.closest("[data-todo-id]");
-      const todoId = todoLi.dataset.todoId;
-      console.log(todoId);
-
-      deleteTodoFunc(state, todoId);
-      render(state);
     } else {
       console.log("Clicked somewhere else, ignoring.");
     }
@@ -32,5 +25,5 @@ export function render(state) {
   );
 
   renderSidebar(state.projects, state.currentProjectId);
-  renderMainContent(currentProject);
+  renderMainContent(currentProject, state, render);
 }

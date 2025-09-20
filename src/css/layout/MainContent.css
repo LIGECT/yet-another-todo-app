@@ -1,0 +1,7 @@
+.todo-details {
+  display: none;
+}
+
+.todo-items.is-expanded .todo-details {
+  display: block;
+}

@@ -1,4 +1,7 @@
-export function renderMainContent(project) {
+import "../../css/layout/MainContent.css";
+import { deleteTodoFromProject } from "../../utils/deleteButton.js";
+
+export function renderMainContent(project, state, render) {
   const mainContentContainer = document.getElementById("main-content");
 
   let todoList = mainContentContainer.querySelector("ul");
@@ -12,7 +15,12 @@ export function renderMainContent(project) {
   if (project) {
     project.todos.forEach((todo) => {
       const todoItem = document.createElement("li");
+      todoItem.className = "todo-items";
       todoItem.dataset.todoId = todo.id;
+
+      todoItem.addEventListener("click", () => {
+        todoItem.classList.toggle("is-expanded");
+      });
 
       const titleDiv = document.createElement("div");
       titleDiv.textContent = todo.title;
@@ -36,19 +44,45 @@ export function renderMainContent(project) {
       deleteButton.textContent = "X";
       deleteButton.className = "delete-todo-btn";
 
+      deleteButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        const currentProject = state.projects.find(
+          (p) => p.id === state.currentProjectId
+        );
+
+        const todoId = todoItem.dataset.todoId;
+        deleteTodoFromProject(currentProject, todoId);
+
+        render(state);
+        // const todoId = todoItem.dataset.todoId;
+        // deleteTodoFromProject(state, todoId);
+        // render(state);
+        // console.log(`Нажата кнопка удаления для задачи с ID: ${todo.id}`);
+      });
+
       const editButton = document.createElement("button");
       editButton.textContent = "Edit";
       editButton.className = "edit-todo-btn";
+      editButton.addEventListener("click", (e) => {
+        e.stopPropagation();
 
-      todoItem.append(
-        titleDiv,
+        console.log(`Нажата кнопка редактирования для задачи с ID: ${todo.id}`);
+        // Тут будет логика редактирования
+      });
+
+      const detailsContainer = document.createElement("div");
+      detailsContainer.className = "todo-details";
+
+      detailsContainer.append(
         description,
         spanDate,
         priority,
-        completed,
         deleteButton,
         editButton
       );
+
+      todoItem.append(completed, titleDiv, detailsContainer);
 
       todoList.appendChild(todoItem);
     });
