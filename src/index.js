@@ -1,7 +1,12 @@
 import "./css/main.css";
 import { appState } from "./data/initialData.js";
-import { render, handleProjectClicks, setupModalHandlers } from "./UI/ui.js";
+import {
+  render,
+  handleProjectClicks,
+  setupModalHandlers,
+} from "./UI/handlers/ui.js";
 import { Todo } from "./models/Todo.js";
+import { setupAppEventHandlers } from "./UI/handlers/eventHandlers.js";
 
 const input = document.getElementById("new-todo-input");
 
@@ -32,5 +37,6 @@ input.addEventListener("keydown", handleEnterPress);
 
 handleProjectClicks(appState);
 setupModalHandlers();
+setupAppEventHandlers(appState, render);
 
 render(appState);

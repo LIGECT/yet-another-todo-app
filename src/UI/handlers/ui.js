@@ -1,5 +1,5 @@
-import { renderSidebar } from "./components/Sidebar";
-import { renderMainContent } from "./components/MainContent";
+import { renderSidebar } from "../components/Sidebar";
+import { renderMainContent } from "../components/MainContent";
 
 export function handleProjectClicks(state) {
   const appContainer = document.getElementById("app");
@@ -24,7 +24,7 @@ export function render(state) {
   );
 
   renderSidebar(state.projects, state.currentProjectId);
-  renderMainContent(currentProject, state, render);
+  renderMainContent(currentProject);
 }
 
 export function openModal() {
