@@ -4,33 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="app">
       <div id="sidebar"></div>
       <div id="main-content">
         <input type="text" id="new-todo-input" placeholder="New Task" />
-        <div id="edit-modal" class="hidden">
-          <form id="edit-form">
-            <div class="form-field">
-              <label for="edit-title">Name:</label>
-              <input type="text" id="edit-title" name="title" required />
-            </div>
-            <div class="form-field">
-              <label for="edit-description">Description:</label>
-              <textarea name="description" id="edit-description"></textarea>
-            </div>
-            <div class="form-field">
-              <label for="edit-dueDate">Completion date:</label>
-              <input type="date" id="edit-dueDate" name="dueDate" />
-            </div>
-            <div class="form-buttons">
-              <button type="submit">Save</button>
-              <button type="button" id="cancel-edit-btn">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
+          </div>
+    </div>
+    <div id="modal-overlay" class="hidden">
+      <div id="edit-modal">
+        <form id="edit-form">
+          <h2>Edit Task</h2>
+          <div class="form-field">
+            <label for="edit-title">Name:</label>
+            <input type="text" id="edit-title" name="title" required />
+          </div>
+          <div class="form-field">
+            <label for="edit-description">Description:</label>
+            <textarea name="description" id="edit-description"></textarea>
+          </div>
+          <div class="form-field">
+            <label for="edit-dueDate">Completion date:</label>
+            <input type="date" id="edit-dueDate" name="dueDate" />
+          </div>
+          <div class="form-buttons">
+            <button type="button" id="cancel-edit-btn">Cancel</button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
     </div>
   </body>
 </html>

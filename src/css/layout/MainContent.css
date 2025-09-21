@@ -1,7 +1,36 @@
-.todo-details {
-  display: none;
+#main-content {
+  padding: 2rem 4rem;
+  overflow-y: auto;
 }
 
-.todo-items.is-expanded .todo-details {
-  display: block;
+.project-title-header {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+#new-todo-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+#new-todo-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(0, 196, 180, 0.2);
+}
+
+.todo-list {
+  list-style: none;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 5rem;
+  color: var(--text-color-light);
 }

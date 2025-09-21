@@ -28,11 +28,13 @@ export function render(state) {
 }
 
 export function openModal() {
-  document.getElementById("edit-modal").classList.remove("hidden");
+  const modalOverlay = document.getElementById("modal-overlay");
+  modalOverlay.classList.remove("hidden");
 }
 
 export function closeModal() {
-  document.getElementById("edit-modal").classList.add("hidden");
+  const modalOverlay = document.getElementById("modal-overlay");
+  modalOverlay.classList.add("hidden");
 }
 
 export function setupModalHandlers() {

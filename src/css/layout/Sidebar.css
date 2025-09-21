@@ -1,0 +1,54 @@
+#sidebar {
+  background-color: var(--card-background);
+  border-right: 1px solid var(--border-color);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+}
+
+.projects-list {
+  list-style: none;
+  flex-grow: 1;
+}
+
+.project-item {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-color-light);
+  transition: all 0.2s ease-in-out;
+}
+
+.project-item:hover {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.project-item.active-project {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.new-project-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.new-project-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}

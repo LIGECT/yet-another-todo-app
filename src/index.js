@@ -1,10 +1,12 @@
 import "./css/main.css";
+import "./css/components/modal.css";
 import { appState } from "./data/initialData.js";
 import {
   render,
   handleProjectClicks,
   setupModalHandlers,
 } from "./UI/handlers/ui.js";
+
 import { Todo } from "./models/Todo.js";
 import { setupAppEventHandlers } from "./UI/handlers/eventHandlers.js";
 

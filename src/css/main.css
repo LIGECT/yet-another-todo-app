@@ -1,3 +1,17 @@
+:root {
+  --font-family: "Inter", "Helvetica Neue", sans-serif;
+  --background-color: #fafafa;
+  --text-color: #1e1e1e;
+  --text-color-light: #888;
+  --accent-color: #00c4b4;
+  --accent-color-danger: #ff6b3d;
+  --border-color: #eee;
+  --card-background: #ffffff;
+  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,44 +19,23 @@
 }
 
 body {
-  font-family: "Courier New", Courier, monospace;
-  background-color: #fafafa;
-  color: #333;
-}
-
-.hello {
-  border: 1px solid #007bff;
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #e6f2ff;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 280px 1fr;
   height: 100vh;
 }
 
-#sidebar {
-  padding: 1rem;
-  background-color: #e9e9e9;
-}
-
-#main-content {
-  padding: 1rem;
-}
-
-h2 {
+button {
+  font-family: inherit;
   cursor: pointer;
-}
-
-.active-project {
-  background-color: #e0e0e0;
-  padding-left: 3px;
-  border-left: 4px solid #007bff;
-}
-
-.active-project h2 {
-  cursor: default;
-  color: #007bff;
+  border: none;
+  background: none;
+  transition: all 0.2s ease-in-out;
 }
