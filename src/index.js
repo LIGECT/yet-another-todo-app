@@ -1,6 +1,6 @@
 import "./css/main.css";
 import { appState } from "./data/initialData.js";
-import { render, handleProjectClicks } from "./UI/ui.js";
+import { render, handleProjectClicks, setupModalHandlers } from "./UI/ui.js";
 import { Todo } from "./models/Todo.js";
 
 const input = document.getElementById("new-todo-input");
@@ -28,17 +28,9 @@ function handleEnterPress(event) {
   input.value = "";
 }
 
-// function deleteTodo(state, todoId) {
-//   const project = state.projects.find((p) => p.id === state.currentProjectId);
-//   if (project) {
-//     project.todos = project.todos.filter((t) => t.id !== todoId);
-//   }
-//   render(state);
-// }
-
 input.addEventListener("keydown", handleEnterPress);
 
-// handleProjectClicks(appState, deleteTodo);
 handleProjectClicks(appState);
+setupModalHandlers();
 
 render(appState);

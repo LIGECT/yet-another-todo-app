@@ -1,12 +1,11 @@
 import { renderSidebar } from "./components/Sidebar";
 import { renderMainContent } from "./components/MainContent";
 
-export function handleProjectClicks(state, deleteTodoFunc) {
+export function handleProjectClicks(state) {
   const appContainer = document.getElementById("app");
 
   appContainer.addEventListener("click", function (event) {
     const projectElement = event.target.closest("[data-project-id]");
-    // const clickedButton = event.target.closest(".delete-todo-btn");
 
     if (projectElement) {
       const projectId = projectElement.dataset.projectId;
@@ -26,4 +25,20 @@ export function render(state) {
 
   renderSidebar(state.projects, state.currentProjectId);
   renderMainContent(currentProject, state, render);
+}
+
+export function openModal() {
+  document.getElementById("edit-modal").classList.remove("hidden");
+}
+
+export function closeModal() {
+  document.getElementById("edit-modal").classList.add("hidden");
+}
+
+export function setupModalHandlers() {
+  const cancelBtn = document.getElementById("cancel-edit-btn");
+  cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    closeModal();
+  });
 }

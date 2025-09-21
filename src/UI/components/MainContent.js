@@ -1,5 +1,7 @@
 import "../../css/layout/MainContent.css";
+import "../../css/components/modal.css";
 import { deleteTodoFromProject } from "../../utils/deleteButton.js";
+import { openModal } from "../ui.js";
 
 export function renderMainContent(project, state, render) {
   const mainContentContainer = document.getElementById("main-content");
@@ -55,10 +57,6 @@ export function renderMainContent(project, state, render) {
         deleteTodoFromProject(currentProject, todoId);
 
         render(state);
-        // const todoId = todoItem.dataset.todoId;
-        // deleteTodoFromProject(state, todoId);
-        // render(state);
-        // console.log(`Нажата кнопка удаления для задачи с ID: ${todo.id}`);
       });
 
       const editButton = document.createElement("button");
@@ -66,9 +64,7 @@ export function renderMainContent(project, state, render) {
       editButton.className = "edit-todo-btn";
       editButton.addEventListener("click", (e) => {
         e.stopPropagation();
-
-        console.log(`Нажата кнопка редактирования для задачи с ID: ${todo.id}`);
-        // Тут будет логика редактирования
+        openModal();
       });
 
       const detailsContainer = document.createElement("div");

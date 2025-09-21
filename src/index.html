@@ -10,6 +10,26 @@
       <div id="sidebar"></div>
       <div id="main-content">
         <input type="text" id="new-todo-input" placeholder="New Task" />
+        <div id="edit-modal" class="hidden">
+          <form id="edit-form">
+            <div class="form-field">
+              <label for="edit-title">Name:</label>
+              <input type="text" id="edit-title" name="title" required />
+            </div>
+            <div class="form-field">
+              <label for="edit-description">Description:</label>
+              <textarea name="description" id="edit-description"></textarea>
+            </div>
+            <div class="form-field">
+              <label for="edit-dueDate">Completion date:</label>
+              <input type="date" id="edit-dueDate" name="dueDate" />
+            </div>
+            <div class="form-buttons">
+              <button type="submit">Save</button>
+              <button type="button" id="cancel-edit-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </body>
