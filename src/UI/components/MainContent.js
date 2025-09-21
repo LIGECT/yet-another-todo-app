@@ -1,4 +1,5 @@
 import { createTodoItemElement } from "./TodoItem";
+import "../../css/layout/MainContent.css";
 
 export function renderMainContent(project) {
   const mainContentContainer = document.getElementById("main-content");

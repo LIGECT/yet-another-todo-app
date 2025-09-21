@@ -1,8 +1,10 @@
 import { deleteTodoFromProject } from "../../utils/deleteButton.js";
-import { openModal } from "./ui.js";
+import { openModal, closeModal } from "./ui.js";
 
 export function setupAppEventHandlers(state, render) {
   const mainContentContainer = document.getElementById("main-content");
+  const form = document.getElementById("edit-form");
+  let currentEditingId = null;
 
   mainContentContainer.addEventListener("click", (e) => {
     const todoItem = e.target.closest(".todo-items");
@@ -22,7 +24,17 @@ export function setupAppEventHandlers(state, render) {
 
     if (e.target.matches(".edit-todo-btn")) {
       e.stopPropagation();
-      openModal();
+      currentEditingId = todoId;
+
+      const currentProject = state.projects.find(
+        (p) => p.id === state.currentProjectId
+      );
+      const todo = currentProject.todos.find((t) => t.id === todoId);
+      if (todo) {
+        openModal();
+        fillForm(todo);
+      }
+
       return;
     }
 
@@ -39,5 +51,28 @@ export function setupAppEventHandlers(state, render) {
     }
 
     todoItem.classList.toggle("is-expanded");
+  });
+
+  function fillForm(todo) {
+    document.getElementById("edit-title").value = todo.title;
+    document.getElementById("edit-description").value = todo.description;
+    document.getElementById("edit-dueDate").value = todo.dueDate || "";
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const currentProject = state.projects.find(
+      (p) => p.id === state.currentProjectId
+    );
+
+    const todo = currentProject.todos.find((t) => t.id === currentEditingId);
+    if (!todo) return;
+
+    todo.title = document.getElementById("edit-title").value.trim();
+    todo.description = document.getElementById("edit-description").value.trim();
+    todo.dueDate = document.getElementById("edit-dueDate").value;
+
+    closeModal();
+    render(state);
   });
 }

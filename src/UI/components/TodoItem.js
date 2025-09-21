@@ -20,8 +20,8 @@ export function createTodoItemElement(todo) {
   titleDiv.textContent = todo.title;
   titleDiv.className = "todo-title";
 
-  const deteilsContainer = document.createElement("div");
-  deteilsContainer.className = "todo-details";
+  const detailsContainer = document.createElement("div");
+  detailsContainer.className = "todo-details";
 
   const description = document.createElement("p");
   description.textContent = todo.description;
@@ -40,7 +40,7 @@ export function createTodoItemElement(todo) {
   editButton.textContent = "Edit";
   editButton.className = "edit-todo-btn";
 
-  deteilsContainer.append(
+  detailsContainer.append(
     description,
     spanDate,
     priority,
@@ -48,7 +48,7 @@ export function createTodoItemElement(todo) {
     editButton
   );
 
-  todoItem.append(completed, titleDiv, deteilsContainer);
+  todoItem.append(completed, titleDiv, detailsContainer);
 
   return todoItem;
 }
