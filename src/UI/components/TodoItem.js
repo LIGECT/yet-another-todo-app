@@ -1,4 +1,5 @@
 // import "../../css/components/modal.css";
+import { createDeleteIcon, createEditIcon } from "./Icons";
 
 export function createTodoItemElement(todo) {
   const todoItem = document.createElement("li");
@@ -46,12 +47,16 @@ export function createTodoItemElement(todo) {
   description.textContent = todo.description;
 
   const deleteButton = document.createElement("button");
-  deleteButton.textContent = "X";
   deleteButton.className = "delete-todo-btn";
+  // deleteButton.textContent = "X";
+  const trashIcon = createDeleteIcon();
+  deleteButton.append(trashIcon);
 
   const editButton = document.createElement("button");
-  editButton.textContent = "Edit";
+  // editButton.textContent = "Edit";
   editButton.className = "edit-todo-btn";
+  const editIcon = createEditIcon();
+  editButton.append(editIcon);
 
   const actions = document.createElement("div");
   actions.className = "todo-actions";

@@ -12,7 +12,7 @@ export function setupAppEventHandlers(state, render) {
 
     const todoId = todoItem.dataset.todoId;
 
-    if (e.target.matches(".delete-todo-btn")) {
+    if (e.target.closest(".delete-todo-btn")) {
       e.stopPropagation();
       const currentProject = state.projects.find(
         (p) => p.id === state.currentProjectId
@@ -22,7 +22,7 @@ export function setupAppEventHandlers(state, render) {
       return;
     }
 
-    if (e.target.matches(".edit-todo-btn")) {
+    if (e.target.closest(".edit-todo-btn")) {
       e.stopPropagation();
       currentEditingId = todoId;
 

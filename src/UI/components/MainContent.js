@@ -5,17 +5,10 @@ import "../../css/components/TodoItem.css";
 export function renderMainContent(project) {
   const mainContentContainer = document.getElementById("main-content");
 
-  // let todoList = mainContentContainer.querySelector("ul");
-  // if (!todoList) {
-  //   todoList = document.createElement("ul");
-  //   mainContentContainer.appendChild(todoList);
-  // }
   const dynamicContent = mainContentContainer.querySelectorAll(
     ".project-title-header, .todo-list, .empty-state"
   );
   dynamicContent.forEach((el) => el.remove());
-
-  // todoList.innerHTML = "";
 
   if (project) {
     const projectTitle = document.createElement("h1");
