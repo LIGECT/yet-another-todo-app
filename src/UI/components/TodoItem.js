@@ -1,5 +1,10 @@
 // import "../../css/components/modal.css";
-import { createDeleteIcon, createEditIcon } from "./Icons";
+import {
+  createDeleteIcon,
+  createEditIcon,
+  createCircleIcon,
+  createCircleCheckIcon,
+} from "./Icons";
 
 export function createTodoItemElement(todo) {
   const todoItem = document.createElement("li");
@@ -17,12 +22,21 @@ export function createTodoItemElement(todo) {
   const mainInfo = document.createElement("div");
   mainInfo.className = "todo-main-info";
 
-  const completed = document.createElement("input");
-  completed.type = "checkbox";
-  completed.checked = todo.completed;
-  completed.id = `todo-completed-${todo.id}`;
-  completed.name = "completed";
-  completed.className = "todo-checkbox";
+  // const completed = document.createElement("input");
+  // completed.type = "checkbox";
+  // completed.checked = todo.completed;
+  // completed.id = `todo-completed-${todo.id}`;
+  // completed.name = "completed";
+  // completed.className = "todo-checkbox";
+  // const circleCheck = createCircleCheckIcon();
+  // const circle = createCircleIcon();
+
+  // todo.completed = completed.name ? circleCheck : circle;
+  const circleCheck = todo.completed
+    ? createCircleCheckIcon()
+    : createCircleIcon();
+
+  circleCheck.classList.add("todo-checkbox");
 
   const titleAndDate = document.createElement("div");
   titleAndDate.className = "title-and-date";
@@ -37,7 +51,7 @@ export function createTodoItemElement(todo) {
 
   titleAndDate.append(title, dueDate);
 
-  mainInfo.append(completed, titleAndDate);
+  mainInfo.append(circleCheck, titleAndDate);
 
   const detailsContainer = document.createElement("div");
   detailsContainer.className = "todo-details";

@@ -38,15 +38,17 @@ export function setupAppEventHandlers(state, render) {
       return;
     }
 
-    if (e.target.matches(".todo-checkbox")) {
+    if (e.target.closest(".todo-checkbox")) {
       const currentProject = state.projects.find(
         (p) => p.id === state.currentProjectId
       );
       const todo = currentProject.todos.find((t) => t.id === todoId);
       if (todo) {
+        e.stopPropagation();
         todo.completed = !todo.completed;
         render(state);
       }
+      console.log(e.target);
       return;
     }
 
