@@ -1,6 +1,8 @@
 import { createTodoItemElement } from "./TodoItem";
 import "../../css/layout/MainContent.css";
+import "../../css/components/EmptyState.css";
 import "../../css/components/TodoItem.css";
+import EmptyState from "../../assets/images/empty-state.svg";
 
 export function renderMainContent(project) {
   const mainContentContainer = document.getElementById("main-content");
@@ -25,10 +27,23 @@ export function renderMainContent(project) {
       });
       mainContentContainer.appendChild(todoList);
     } else {
-      const emptyState = document.createElement("div");
-      emptyState.className = "empty-state";
-      emptyState.innerHTML = `<h3>No tasks yet. Add one!</h3>`;
-      mainContentContainer.appendChild(emptyState);
+      const emptyStateContainer = document.createElement("div");
+      emptyStateContainer.className = "empty-state";
+
+      const emptyStatePicture = document.createElement("img");
+      emptyStatePicture.className = "empty-state-img";
+      emptyStatePicture.src = EmptyState;
+      emptyStatePicture.alt =
+        "Minimalist empty state illustration for a to-do list app";
+      emptyStatePicture.loading = "lazy";
+
+      const emptyStateMessage = document.createElement("h3");
+      emptyStateMessage.className = "empty-state-message";
+      emptyStateMessage.textContent =
+        "There are no tasks yet. Add the first one!";
+
+      emptyStateContainer.append(emptyStatePicture, emptyStateMessage);
+      mainContentContainer.appendChild(emptyStateContainer);
     }
   }
 }

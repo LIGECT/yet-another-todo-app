@@ -1,12 +1,28 @@
+import imageLogo from "../../assets/images/logo.svg";
 import "../../css/layout/Sidebar.css";
 
 export function renderSidebar(projects, currentProjectId) {
   const sidebarContainer = document.getElementById("sidebar");
   sidebarContainer.innerHTML = "";
 
+  const appHeader = document.createElement("div");
+  appHeader.className = "app-header";
+
+  const logo = document.createElement("img");
+  logo.className = "logo-todo";
+  logo.src = imageLogo;
+  logo.sizes = "80px";
+  logo.width = 80;
+  logo.height = 80;
+
+  logo.alt = "Abstract logo for a productivity app.";
+  logo.loading = "lazy";
+
   const appTitle = document.createElement("h1");
   appTitle.className = "app-title";
-  appTitle.textContent = "TodoApp";
+  appTitle.textContent = "Todo App";
+
+  appHeader.append(logo, appTitle);
 
   const projectsList = document.createElement("div");
   projectsList.className = "projects-list";
@@ -20,11 +36,6 @@ export function renderSidebar(projects, currentProjectId) {
       projectBlock.classList.add("active-project");
     }
 
-    // const projectTitle = document.createElement("h2");
-    // projectTitle.textContent = project.name;
-    // projectBlock.appendChild(projectTitle);
-    // sidebarContainer.appendChild(projectBlock);
-
     projectBlock.textContent = project.name;
     projectsList.appendChild(projectBlock);
   });
@@ -33,5 +44,5 @@ export function renderSidebar(projects, currentProjectId) {
   newProjectButton.className = "new-project-btn";
   newProjectButton.textContent = "+ New Project";
 
-  sidebarContainer.append(appTitle, projectsList, newProjectButton);
+  sidebarContainer.append(appHeader, projectsList, newProjectButton);
 }
