@@ -50,8 +50,27 @@
 }
 
 .todo-checkbox:hover {
-  transform: scale(1.2); /* Увеличиваем на 20% */
+  transform: scale(1.2);
   /* filter: drop-shadow(0 0 5px var(--accent-color)); */
+}
+
+.todo-checkbox-svg {
+  width: 22px;
+  height: 22px;
+  margin-right: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.todo-items.is-completed .checkbox-circle {
+  stroke: #00c4b4;
+}
+
+.checkbox-checkmark {
+  opacity: 0;
+}
+.todo-items.is-completed .checkbox-checkmark {
+  opacity: 1;
 }
 
 .title-and-date {

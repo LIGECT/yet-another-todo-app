@@ -1,5 +1,6 @@
 import { deleteTodoFromProject } from "../../utils/deleteButton.js";
 import { openModal, closeModal } from "./ui.js";
+import { animate } from "animejs";
 
 export function setupAppEventHandlers(state, render) {
   const mainContentContainer = document.getElementById("main-content");
@@ -38,17 +39,44 @@ export function setupAppEventHandlers(state, render) {
       return;
     }
 
-    if (e.target.closest(".todo-checkbox")) {
+    if (e.target.closest(".todo-checkbox-svg")) {
+      e.stopPropagation();
+
       const currentProject = state.projects.find(
         (p) => p.id === state.currentProjectId
       );
       const todo = currentProject.todos.find((t) => t.id === todoId);
-      if (todo) {
-        e.stopPropagation();
-        todo.completed = !todo.completed;
+
+      if (todo && !todo.completed) {
+        todo.completed = true;
+        const checkboxSVG = e.target.closest(".todo-checkbox-svg");
+        const checkmarkPath = checkboxSVG.querySelector(".checkbox-checkmark");
+        const circle = checkboxSVG.querySelector(".checkbox-circle");
+        const pathLength = checkmarkPath.getTotalLength();
+        checkmarkPath.style.strokeDasharray = pathLength;
+        checkmarkPath.style.strokeDashoffset = pathLength;
+        checkmarkPath.style.opacity = "1";
+
+        animate(circle, {
+          stroke: ["#888", "#00C4B4"],
+          duration: 400,
+          ease: "outSine",
+        });
+
+        const checkAnimation = animate(checkmarkPath, {
+          strokeDashoffset: [pathLength, 0],
+          duration: 500,
+          ease: "outSine",
+          delay: 100,
+        });
+
+        checkAnimation.then(() => {
+          render(state);
+        });
+      } else if (todo) {
+        todo.completed = false;
         render(state);
       }
-      console.log(e.target);
       return;
     }
 

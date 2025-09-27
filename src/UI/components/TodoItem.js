@@ -22,21 +22,20 @@ export function createTodoItemElement(todo) {
   const mainInfo = document.createElement("div");
   mainInfo.className = "todo-main-info";
 
-  // const completed = document.createElement("input");
-  // completed.type = "checkbox";
-  // completed.checked = todo.completed;
-  // completed.id = `todo-completed-${todo.id}`;
-  // completed.name = "completed";
-  // completed.className = "todo-checkbox";
-  // const circleCheck = createCircleCheckIcon();
-  // const circle = createCircleIcon();
-
-  // todo.completed = completed.name ? circleCheck : circle;
-  const circleCheck = todo.completed
-    ? createCircleCheckIcon()
-    : createCircleIcon();
-
-  circleCheck.classList.add("todo-checkbox");
+  // const circleCheck = todo.completed
+  //   ? createCircleCheckIcon()
+  //   : createCircleIcon();
+  // circleCheck.classList.add("todo-checkbox");
+  const checkboxSVG = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  checkboxSVG.setAttribute("class", "todo-checkbox-svg");
+  checkboxSVG.setAttribute("viewBox", "0 0 24 24");
+  checkboxSVG.innerHTML = `
+    <circle class="checkbox-circle" cx="12" cy="12" r="10" fill="none" stroke="#888" stroke-width="2"/>
+    <path class="checkbox-checkmark" d="M7 13l3 3 7-7" stroke="#00C4B4" stroke-width="2" fill="none"/>
+`;
 
   const titleAndDate = document.createElement("div");
   titleAndDate.className = "title-and-date";
@@ -51,7 +50,7 @@ export function createTodoItemElement(todo) {
 
   titleAndDate.append(title, dueDate);
 
-  mainInfo.append(circleCheck, titleAndDate);
+  mainInfo.append(checkboxSVG, titleAndDate);
 
   const detailsContainer = document.createElement("div");
   detailsContainer.className = "todo-details";
@@ -62,12 +61,10 @@ export function createTodoItemElement(todo) {
 
   const deleteButton = document.createElement("button");
   deleteButton.className = "delete-todo-btn";
-  // deleteButton.textContent = "X";
   const trashIcon = createDeleteIcon();
   deleteButton.append(trashIcon);
 
   const editButton = document.createElement("button");
-  // editButton.textContent = "Edit";
   editButton.className = "edit-todo-btn";
   const editIcon = createEditIcon();
   editButton.append(editIcon);
