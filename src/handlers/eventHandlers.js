@@ -1,6 +1,7 @@
-import { deleteTodoFromProject } from "../../utils/deleteButton.js";
+import { deleteTodoFromProject } from "../utils/deleteButton.js";
 import { openModal, closeModal } from "./ui.js";
-import { animate } from "animejs";
+// import { animate } from "animejs";
+import { animateCheckbox, animateTodoCompletion } from "../utils/animations.js";
 
 export function setupAppEventHandlers(state, render) {
   const mainContentContainer = document.getElementById("main-content");
@@ -49,30 +50,13 @@ export function setupAppEventHandlers(state, render) {
 
       if (todo && !todo.completed) {
         todo.completed = true;
+
         const checkboxSVG = e.target.closest(".todo-checkbox-svg");
-        const checkmarkPath = checkboxSVG.querySelector(".checkbox-checkmark");
-        const circle = checkboxSVG.querySelector(".checkbox-circle");
-        const pathLength = checkmarkPath.getTotalLength();
-        checkmarkPath.style.strokeDasharray = pathLength;
-        checkmarkPath.style.strokeDashoffset = pathLength;
-        checkmarkPath.style.opacity = "1";
+        const todoItemElement = e.target.closest(".todo-items");
 
-        animate(circle, {
-          stroke: ["#888", "#00C4B4"],
-          duration: 400,
-          ease: "outSine",
-        });
+        todoItemElement.classList.add("is-completed");
 
-        const checkAnimation = animate(checkmarkPath, {
-          strokeDashoffset: [pathLength, 0],
-          duration: 500,
-          ease: "outSine",
-          delay: 100,
-        });
-
-        checkAnimation.then(() => {
-          render(state);
-        });
+        animateCheckbox(checkboxSVG, () => render(state));
       } else if (todo) {
         todo.completed = false;
         render(state);

@@ -80,19 +80,39 @@
 
 .todo-title {
   font-weight: 600;
+  position: relative;
+  width: max-content;
+}
+
+.todo-title::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: var(--text-color-light);
+  transition: width 0.6s ease-in-out;
+  transform: translateY(-50%);
+}
+
+.todo-items.is-completed .todo-title::after {
+  width: 100%;
 }
 
 .todo-due-date {
   font-size: 0.8rem;
   color: var(--text-color-light);
   margin-top: 2px;
+  width: max-content;
 }
 
 .todo-items.is-completed .todo-title,
 .todo-items.is-completed .todo-due-date {
-  text-decoration: line-through;
   color: var(--text-color-light);
   opacity: 0.7;
+  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  width: max-content;
 }
 
 .todo-details {

@@ -1,5 +1,5 @@
-import { renderSidebar } from "../components/Sidebar";
-import { renderMainContent } from "../components/MainContent";
+import { renderSidebar } from "../components/Sidebar/index.js";
+import { renderMainContent } from "../components/MainContent/index.js";
 
 export function handleProjectClicks(state) {
   const appContainer = document.getElementById("app");

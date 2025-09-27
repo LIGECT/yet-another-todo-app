@@ -1,10 +1,4 @@
-// import "../../css/components/modal.css";
-import {
-  createDeleteIcon,
-  createEditIcon,
-  createCircleIcon,
-  createCircleCheckIcon,
-} from "./Icons";
+import { createDeleteIcon, createEditIcon } from "./Icons.js";
 
 export function createTodoItemElement(todo) {
   const todoItem = document.createElement("li");
@@ -22,10 +16,6 @@ export function createTodoItemElement(todo) {
   const mainInfo = document.createElement("div");
   mainInfo.className = "todo-main-info";
 
-  // const circleCheck = todo.completed
-  //   ? createCircleCheckIcon()
-  //   : createCircleIcon();
-  // circleCheck.classList.add("todo-checkbox");
   const checkboxSVG = document.createElementNS(
     "http://www.w3.org/2000/svg",
     "svg"

@@ -1,7 +1,7 @@
-import { createTodoItemElement } from "./TodoItem";
-import "../../css/layout/MainContent.css";
-import "../../css/components/EmptyState.css";
-import "../../css/components/TodoItem.css";
+import { createTodoItemElement } from "../TodoItem/index.js";
+import "./MainContent.css";
+import "../../css/EmptyState.css";
+import "../../components/TodoItem/TodoItem.css";
 import EmptyState from "../../assets/images/empty-state.svg";
 
 export function renderMainContent(project) {

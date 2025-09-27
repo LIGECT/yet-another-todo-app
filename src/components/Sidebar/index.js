@@ -1,5 +1,5 @@
 import imageLogo from "../../assets/images/logo.svg";
-import "../../css/layout/Sidebar.css";
+import "./Sidebar.css";
 
 export function renderSidebar(projects, currentProjectId) {
   const sidebarContainer = document.getElementById("sidebar");

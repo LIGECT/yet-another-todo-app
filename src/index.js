@@ -1,14 +1,14 @@
 import "./css/main.css";
-import "./css/components/modal.css";
+import "./css/modal.css";
 import { appState } from "./data/initialData.js";
 import {
   render,
   handleProjectClicks,
   setupModalHandlers,
-} from "./UI/handlers/ui.js";
+} from "./handlers/ui.js";
 
 import { Todo } from "./models/Todo.js";
-import { setupAppEventHandlers } from "./UI/handlers/eventHandlers.js";
+import { setupAppEventHandlers } from "./handlers/eventHandlers.js";
 
 const input = document.getElementById("new-todo-input");
 
