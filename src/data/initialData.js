@@ -29,6 +29,7 @@ project2.todos.push(todo3);
 const appState = {
   projects: [project1, project2],
   currentProjectId: project1.id,
+  isCreatingProject: false,
 };
 
 export { appState };

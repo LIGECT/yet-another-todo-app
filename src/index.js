@@ -1,12 +1,7 @@
 import "./css/main.css";
 import "./css/modal.css";
 import { appState } from "./data/initialData.js";
-import {
-  render,
-  handleProjectClicks,
-  setupModalHandlers,
-} from "./handlers/ui.js";
-
+import { render } from "./handlers/ui.js";
 import { Todo } from "./models/Todo.js";
 import { setupAppEventHandlers } from "./handlers/eventHandlers.js";
 
@@ -37,8 +32,6 @@ function handleEnterPress(event) {
 
 input.addEventListener("keydown", handleEnterPress);
 
-handleProjectClicks(appState);
-setupModalHandlers();
 setupAppEventHandlers(appState, render);
 
 render(appState);

@@ -1,24 +1,90 @@
 import { deleteTodoFromProject } from "../utils/deleteButton.js";
 import { openModal, closeModal } from "./ui.js";
-// import { animate } from "animejs";
-import { animateCheckbox, animateTodoCompletion } from "../utils/animations.js";
+import { animateCheckbox } from "../utils/animations.js";
+import { Project } from "../models/Project.js";
 
 export function setupAppEventHandlers(state, render) {
-  const mainContentContainer = document.getElementById("main-content");
+  const mainContent = document.getElementById("main-content");
+  const sidebar = document.getElementById("sidebar");
   const form = document.getElementById("edit-form");
   let currentEditingId = null;
 
-  mainContentContainer.addEventListener("click", (e) => {
+  sidebar.addEventListener("click", (e) => {
+    const projectItem = e.target.closest(".project-item");
+    if (projectItem) {
+      const projectId = projectItem.dataset.projectId;
+      state.currentProjectId = projectId;
+      render(state);
+      return;
+    }
+
+    const newProjectBtn = e.target.closest(".new-project-btn");
+    if (newProjectBtn) {
+      state.isCreatingProject = true;
+      render(state);
+
+      setTimeout(() => {
+        const input = document.getElementById("new-project-input");
+        if (input) {
+          input.focus();
+        }
+      }, 50);
+
+      return;
+    }
+  });
+
+  sidebar.addEventListener("keydown", (e) => {
+    if (e.target.id === "new-project-input") {
+      if (e.key === "Enter") {
+        const input = e.target;
+        const projectName = input.value.trim();
+
+        if (projectName) {
+          const newProject = new Project(projectName);
+          state.projects.push(newProject);
+          state.currentProjectId = newProject.id;
+        }
+
+        input.value = "";
+        state.isCreatingProject = false;
+        render(state);
+        setTimeout(() => {
+          document.querySelector(".new-project-btn")?.focus();
+        }, 0);
+      } else if (e.key === "Escape") {
+        const input = e.target;
+        input.value = "";
+        state.isCreatingProject = false;
+        render(state);
+
+        setTimeout(() => {
+          document.querySelector(".new-project-btn")?.focus();
+        }, 0);
+      }
+    }
+  });
+
+  // sidebar.addEventListener("focusout", (e) => {
+  //   if (e.target.id === "new-project-input") {
+  //     state.isCreatingProject = false;
+  //     setTimeout(() => render(state), 100);
+  //   }
+  // });
+
+  mainContent.addEventListener("click", (e) => {
     const todoItem = e.target.closest(".todo-items");
     if (!todoItem) return;
+
+    const currentProject = state.projects.find(
+      (p) => p.id === state.currentProjectId
+    );
+    if (!currentProject) return;
 
     const todoId = todoItem.dataset.todoId;
 
     if (e.target.closest(".delete-todo-btn")) {
       e.stopPropagation();
-      const currentProject = state.projects.find(
-        (p) => p.id === state.currentProjectId
-      );
       deleteTodoFromProject(currentProject, todoId);
       render(state);
       return;
@@ -27,10 +93,6 @@ export function setupAppEventHandlers(state, render) {
     if (e.target.closest(".edit-todo-btn")) {
       e.stopPropagation();
       currentEditingId = todoId;
-
-      const currentProject = state.projects.find(
-        (p) => p.id === state.currentProjectId
-      );
       const todo = currentProject.todos.find((t) => t.id === todoId);
       if (todo) {
         openModal();
@@ -42,10 +104,6 @@ export function setupAppEventHandlers(state, render) {
 
     if (e.target.closest(".todo-checkbox-svg")) {
       e.stopPropagation();
-
-      const currentProject = state.projects.find(
-        (p) => p.id === state.currentProjectId
-      );
       const todo = currentProject.todos.find((t) => t.id === todoId);
 
       if (todo && !todo.completed) {
@@ -88,5 +146,10 @@ export function setupAppEventHandlers(state, render) {
 
     closeModal();
     render(state);
+  });
+
+  document.getElementById("cancel-edit-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    closeModal();
   });
 }

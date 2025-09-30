@@ -16,14 +16,14 @@
       <div id="sidebar"></div>
       <div id="main-content">
         <input type="text" id="new-todo-input" placeholder="New Task" />
-          </div>
+      </div>
     </div>
     <div id="modal-overlay" class="hidden">
       <div id="edit-modal">
         <form id="edit-form">
           <h2>Edit Task</h2>
           <div class="form-field">
-            <label for="edit-title">Name:</label>
+            <label for="edit-title">Title:</label>
             <input type="text" id="edit-title" name="title" required />
           </div>
           <div class="form-field">
@@ -31,7 +31,7 @@
             <textarea name="description" id="edit-description"></textarea>
           </div>
           <div class="form-field">
-            <label for="edit-dueDate">Completion date:</label>
+            <label for="edit-dueDate">Due Date:</label>
             <input type="date" id="edit-dueDate" name="dueDate" />
           </div>
           <div class="form-buttons">
@@ -39,6 +39,7 @@
             <button type="submit" class="btn-primary">Save</button>
           </div>
         </form>
+      </div>
     </div>
   </body>
 </html>

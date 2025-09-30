@@ -26,18 +26,3 @@ export function animateCheckbox(checkboxSVG, onAnimationComplete) {
     onAnimationComplete();
   });
 }
-
-// export function animateTodoCompletion(todoItem, onAnimationComplete) {
-//   const title = todoItem.querySelector(".todo-title");
-//   const dueDate = todoItem.querySelector(".todo-due-date");
-
-//   const animation = animate([title, dueDate], {
-//     opacity: [1, 0.7],
-//     duration: 400,
-//     ease: "outSine",
-//   });
-
-//   animation.then(() => {
-//     onAnimationComplete();
-//   });
-// }
