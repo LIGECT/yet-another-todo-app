@@ -36,7 +36,7 @@ export function renderSidebar(projects, currentProjectId, isCreatingProject) {
     const newProjectInput = document.createElement("input");
     newProjectInput.type = "text";
     newProjectInput.id = "new-project-input";
-    newProjectInput.className = "new-project-input";
+    newProjectInput.classList.add("new-project-input", "is-hidden");
     newProjectInput.placeholder = "New project name...";
 
     newProjectContainer.append(newProjectButton, newProjectInput);
@@ -45,7 +45,7 @@ export function renderSidebar(projects, currentProjectId, isCreatingProject) {
   }
 
   const projectsList = sidebarContainer.querySelector(".projects-list");
-  projectsList.innerHTML = "";
+  projectsList.replaceChildren();
   projects.forEach((project) => {
     const projectBlock = document.createElement("div");
     projectBlock.dataset.projectId = project.id;
@@ -60,11 +60,10 @@ export function renderSidebar(projects, currentProjectId, isCreatingProject) {
   const newProjectButton = sidebarContainer.querySelector(".new-project-btn");
   const newProjectInput = sidebarContainer.querySelector("#new-project-input");
 
+  newProjectButton.classList.toggle("is-hidden", isCreatingProject);
+  newProjectInput.classList.toggle("is-hidden", !isCreatingProject);
+
   if (isCreatingProject) {
-    newProjectButton.classList.add("is-hidden");
-    newProjectInput.classList.remove("is-hidden");
-  } else {
-    newProjectButton.classList.remove("is-hidden");
-    newProjectInput.classList.add("is-hidden");
+    newProjectInput.focus();
   }
 }

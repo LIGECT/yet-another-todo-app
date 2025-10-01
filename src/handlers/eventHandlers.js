@@ -22,14 +22,6 @@ export function setupAppEventHandlers(state, render) {
     if (newProjectBtn) {
       state.isCreatingProject = true;
       render(state);
-
-      setTimeout(() => {
-        const input = document.getElementById("new-project-input");
-        if (input) {
-          input.focus();
-        }
-      }, 50);
-
       return;
     }
   });
@@ -49,28 +41,26 @@ export function setupAppEventHandlers(state, render) {
         input.value = "";
         state.isCreatingProject = false;
         render(state);
-        setTimeout(() => {
-          document.querySelector(".new-project-btn")?.focus();
-        }, 0);
       } else if (e.key === "Escape") {
         const input = e.target;
         input.value = "";
         state.isCreatingProject = false;
         render(state);
-
-        setTimeout(() => {
-          document.querySelector(".new-project-btn")?.focus();
-        }, 0);
       }
     }
   });
 
-  // sidebar.addEventListener("focusout", (e) => {
-  //   if (e.target.id === "new-project-input") {
-  //     state.isCreatingProject = false;
-  //     setTimeout(() => render(state), 100);
-  //   }
-  // });
+  sidebar.addEventListener(
+    "blur",
+    (e) => {
+      if (e.target.id === "new-project-input") {
+        e.target.value = "";
+        state.isCreatingProject = false;
+        render(state);
+      }
+    },
+    true
+  );
 
   mainContent.addEventListener("click", (e) => {
     const todoItem = e.target.closest(".todo-items");
