@@ -1,0 +1,40 @@
+.fab {
+  position: fixed;
+  z-index: 100;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  box-shadow: var(--shadow-medium);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.fab::before,
+.fab::after {
+  content: "";
+  position: absolute;
+  background-color: white;
+  border-radius: 2px;
+}
+
+.fab::before {
+  width: 20px;
+  height: 3px;
+}
+
+.fab::after {
+  width: 3px;
+  height: 20px;
+}
+
+.fab:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-large);
+}

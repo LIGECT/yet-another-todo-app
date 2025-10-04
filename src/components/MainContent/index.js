@@ -7,23 +7,12 @@ import EmptyState from "../../assets/images/empty-state.svg";
 export function renderMainContent(project) {
   const mainContentContainer = document.getElementById("main-content");
   mainContentContainer.replaceChildren();
-  // const dynamicContent = mainContentContainer.querySelectorAll(
-  //   ".project-title-header, .todo-list, .empty-state"
-  // );
-  // dynamicContent.forEach((el) => el.remove());
 
   if (project) {
-    const newTodoInput = document.createElement("input");
-    newTodoInput.type = "text";
-    newTodoInput.id = "new-todo-input";
-    newTodoInput.placeholder = "New Task";
-
     const projectTitle = document.createElement("h1");
     projectTitle.className = "project-title-header";
     projectTitle.textContent = project.name;
-    mainContentContainer.append(newTodoInput, newTodoInput);
-
-    // document.getElementById("new-todo-input").after(projectTitle);
+    mainContentContainer.append(projectTitle);
 
     if (project.todos.length > 0) {
       const todoList = document.createElement("ul");

@@ -86,7 +86,7 @@ export function setupAppEventHandlers(state, render) {
       currentEditingId = todoId;
       const todo = currentProject.todos.find((t) => t.id === todoId);
       if (todo) {
-        openModal();
+        openModal({ mode: "edit", todo: todo });
         fillForm(todo);
       }
 
@@ -116,36 +116,21 @@ export function setupAppEventHandlers(state, render) {
     todoItem.classList.toggle("is-expanded");
   });
 
-  mainContent.addEventListener("keydown", (e) => {
-    if (e.target.id === "new-todo-input") {
-      if (e.key !== "Enter") return;
-
-      const input = e.target;
-      const inputText = input.value.trim();
-
-      if (inputText === "") return;
-
+  document.getElementById("fab-add-todo").addEventListener("click", (e) => {
+    if (e.target.closest(".fab")) {
       const currentProject = state.projects.find(
         (p) => p.id === state.currentProjectId
       );
 
       if (!currentProject) {
-        console.error("Current project not found");
+        alert("Please select a project first to add a task.");
         return;
       }
 
-      const newTodo = new Todo(inputText);
-      currentProject.todos.push(newTodo);
-
-      render(state);
+      currentEditingId = null;
+      openModal({ mode: "create" });
     }
   });
-
-  function fillForm(todo) {
-    document.getElementById("edit-title").value = todo.title;
-    document.getElementById("edit-description").value = todo.description;
-    document.getElementById("edit-dueDate").value = todo.dueDate || "";
-  }
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -153,12 +138,25 @@ export function setupAppEventHandlers(state, render) {
       (p) => p.id === state.currentProjectId
     );
 
-    const todo = currentProject.todos.find((t) => t.id === currentEditingId);
-    if (!todo) return;
+    if (!currentProject) {
+      console.error("Current project not found");
+      return;
+    }
 
-    todo.title = document.getElementById("edit-title").value.trim();
-    todo.description = document.getElementById("edit-description").value.trim();
-    todo.dueDate = document.getElementById("edit-dueDate").value;
+    const title = document.getElementById("edit-title").value.trim();
+    const description = document
+      .getElementById("edit-description")
+      .value.trim();
+    const dueDate = document.getElementById("edit-dueDate").value;
+
+    if (currentEditingId !== null) {
+      const todo = currentProject.todos.find((t) => t.id === currentEditingId);
+      if (!todo) return;
+      Object.assign(todo, { title, description, dueDate });
+    } else {
+      const newTodo = new Todo(title, description, dueDate);
+      currentProject.todos.push(newTodo);
+    }
 
     closeModal();
     render(state);
@@ -168,4 +166,10 @@ export function setupAppEventHandlers(state, render) {
     e.preventDefault();
     closeModal();
   });
+}
+
+export function fillForm(todo) {
+  document.getElementById("edit-title").value = todo.title;
+  document.getElementById("edit-description").value = todo.description;
+  document.getElementById("edit-dueDate").value = todo.dueDate || "";
 }
