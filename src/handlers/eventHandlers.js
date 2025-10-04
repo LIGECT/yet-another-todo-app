@@ -1,6 +1,7 @@
 import { deleteTodoFromProject } from "../utils/deleteButton.js";
 import { openModal, closeModal } from "./ui.js";
 import { animateCheckbox } from "../utils/animations.js";
+import { Todo } from "../models/Todo.js";
 import { Project } from "../models/Project.js";
 
 export function setupAppEventHandlers(state, render) {
@@ -113,6 +114,31 @@ export function setupAppEventHandlers(state, render) {
     }
 
     todoItem.classList.toggle("is-expanded");
+  });
+
+  mainContent.addEventListener("keydown", (e) => {
+    if (e.target.id === "new-todo-input") {
+      if (e.key !== "Enter") return;
+
+      const input = e.target;
+      const inputText = input.value.trim();
+
+      if (inputText === "") return;
+
+      const currentProject = state.projects.find(
+        (p) => p.id === state.currentProjectId
+      );
+
+      if (!currentProject) {
+        console.error("Current project not found");
+        return;
+      }
+
+      const newTodo = new Todo(inputText);
+      currentProject.todos.push(newTodo);
+
+      render(state);
+    }
   });
 
   function fillForm(todo) {
