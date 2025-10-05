@@ -9,7 +9,7 @@ export function setupAppEventHandlers(state, render) {
   const sidebar = document.getElementById("sidebar");
   const form = document.getElementById("edit-form");
   const priorityContainer = document.querySelector(
-    ".priority-selector-container"
+    ".priority-segmented-control"
   );
   let currentEditingId = null;
   let activePriorityButton = null;
@@ -19,23 +19,21 @@ export function setupAppEventHandlers(state, render) {
     document.getElementById("edit-description").value = todo.description;
     document.getElementById("edit-dueDate").value = todo.dueDate || "";
 
-    const correctButton = document.querySelector(
-      `[data-priority="${todo.priority}"]`
-    );
-
-    setActivePriority(correctButton);
+    setActivePriority(todo.priority);
   }
 
-  function setActivePriority(button) {
-    if (!button) return;
-    const allPriorityButton = document.querySelectorAll(".priority-btn");
+  function setActivePriority(priority) {
+    const container = document.querySelector(".priority-segmented-control");
+    const segments = container.querySelectorAll(".priority-segment");
 
-    allPriorityButton.forEach((btn) => {
-      btn.classList.remove("active");
-    });
+    segments.forEach((seg) => seg.classList.remove("active"));
 
-    button.classList.add("active");
-    activePriorityButton = button;
+    const activeSegment = container.querySelector(
+      `[data-priority="${priority}"]`
+    );
+    activeSegment.classList.add("active");
+    activePriorityButton = activeSegment;
+    container.setAttribute("data-active", priority);
   }
 
   sidebar.addEventListener("click", (e) => {
@@ -194,11 +192,10 @@ export function setupAppEventHandlers(state, render) {
 
   priorityContainer.addEventListener("click", (e) => {
     e.preventDefault();
-    const clickedButton = e.target.closest(".priority-btn");
+    const clickedSegment = e.target.closest(".priority-segment");
+    if (!clickedSegment) return;
 
-    if (!clickedButton) return;
-
-    setActivePriority(clickedButton);
+    setActivePriority(clickedSegment.dataset.priority);
   });
 
   document.getElementById("cancel-edit-btn").addEventListener("click", (e) => {
