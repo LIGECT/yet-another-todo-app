@@ -8,7 +8,35 @@ export function setupAppEventHandlers(state, render) {
   const mainContent = document.getElementById("main-content");
   const sidebar = document.getElementById("sidebar");
   const form = document.getElementById("edit-form");
+  const priorityContainer = document.querySelector(
+    ".priority-selector-container"
+  );
   let currentEditingId = null;
+  let activePriorityButton = null;
+
+  function fillForm(todo) {
+    document.getElementById("edit-title").value = todo.title;
+    document.getElementById("edit-description").value = todo.description;
+    document.getElementById("edit-dueDate").value = todo.dueDate || "";
+
+    const correctButton = document.querySelector(
+      `[data-priority="${todo.priority}"]`
+    );
+
+    setActivePriority(correctButton);
+  }
+
+  function setActivePriority(button) {
+    if (!button) return;
+    const allPriorityButton = document.querySelectorAll(".priority-btn");
+
+    allPriorityButton.forEach((btn) => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    activePriorityButton = button;
+  }
 
   sidebar.addEventListener("click", (e) => {
     const projectItem = e.target.closest(".project-item");
@@ -86,7 +114,7 @@ export function setupAppEventHandlers(state, render) {
       currentEditingId = todoId;
       const todo = currentProject.todos.find((t) => t.id === todoId);
       if (todo) {
-        openModal({ mode: "edit", todo: todo });
+        openModal({ mode: "edit" });
         fillForm(todo);
       }
 
@@ -129,6 +157,7 @@ export function setupAppEventHandlers(state, render) {
 
       currentEditingId = null;
       openModal({ mode: "create" });
+      fillForm({ title: "", description: "", dueDate: "", priority: "low" });
     }
   });
 
@@ -148,13 +177,14 @@ export function setupAppEventHandlers(state, render) {
       .getElementById("edit-description")
       .value.trim();
     const dueDate = document.getElementById("edit-dueDate").value;
+    const priority = activePriorityButton.dataset.priority;
 
     if (currentEditingId !== null) {
       const todo = currentProject.todos.find((t) => t.id === currentEditingId);
       if (!todo) return;
-      Object.assign(todo, { title, description, dueDate });
+      Object.assign(todo, { title, description, dueDate, priority });
     } else {
-      const newTodo = new Todo(title, description, dueDate);
+      const newTodo = new Todo(title, description, dueDate, priority);
       currentProject.todos.push(newTodo);
     }
 
@@ -162,14 +192,17 @@ export function setupAppEventHandlers(state, render) {
     render(state);
   });
 
+  priorityContainer.addEventListener("click", (e) => {
+    e.preventDefault();
+    const clickedButton = e.target.closest(".priority-btn");
+
+    if (!clickedButton) return;
+
+    setActivePriority(clickedButton);
+  });
+
   document.getElementById("cancel-edit-btn").addEventListener("click", (e) => {
     e.preventDefault();
     closeModal();
   });
-}
-
-export function fillForm(todo) {
-  document.getElementById("edit-title").value = todo.title;
-  document.getElementById("edit-description").value = todo.description;
-  document.getElementById("edit-dueDate").value = todo.dueDate || "";
 }

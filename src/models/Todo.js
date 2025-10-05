@@ -1,5 +1,5 @@
 export class Todo {
-  constructor(title, description = "...", dueDate = "none", priority = "low") {
+  constructor(title, description = "", dueDate = "none", priority = "low") {
     this.id = crypto.randomUUID();
     this.title = title;
     this.description = description;
@@ -7,5 +7,4 @@ export class Todo {
     this.priority = priority;
     this.completed = false;
   }
-  // toggleComplete() { this.completed = !this.completed; }
 }

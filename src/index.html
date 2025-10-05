@@ -21,7 +21,6 @@
     <div id="modal-overlay" class="hidden">
       <div id="edit-modal">
         <form id="edit-form">
-          <!-- <h2>Edit Task</h2> -->
           <h2 id="titleForm"></h2>
           <div class="form-field">
             <label for="edit-title">Title:</label>
@@ -34,6 +33,16 @@
           <div class="form-field">
             <label for="edit-dueDate">Due Date:</label>
             <input type="date" id="edit-dueDate" name="dueDate" />
+          </div>
+          <div class="form-field">
+            <label>Priority:</label>
+            <div class="priority-selector-container">
+              <button class="priority-btn" data-priority="high">High</button>
+              <button class="priority-btn" data-priority="medium">
+                Medium
+              </button>
+              <button class="priority-btn" data-priority="low">Low</button>
+            </div>
           </div>
           <div class="form-buttons">
             <button type="button" id="cancel-edit-btn">Cancel</button>
