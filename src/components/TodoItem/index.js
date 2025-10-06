@@ -1,4 +1,5 @@
 import { createDeleteIcon, createEditIcon } from "./Icons.js";
+import { formatDueDate } from "../../utils/date.js";
 
 export function createTodoItemElement(todo) {
   const todoItem = document.createElement("li");
@@ -36,7 +37,7 @@ export function createTodoItemElement(todo) {
 
   const dueDate = document.createElement("span");
   dueDate.className = "todo-due-date";
-  dueDate.textContent = todo.dueDate;
+  dueDate.textContent = formatDueDate(todo.dueDate);
 
   titleAndDate.append(title, dueDate);
 

@@ -2,6 +2,9 @@ import path from "path";
 import { fileURLToPath } from "url";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { supportedLocales } from "./src/locale/config.js";
+import webpack from "webpack";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +24,11 @@ export default {
     new MiniCssExtractPlugin({
       filename: "build.[contenthash].css",
     }),
+    new webpack.ContextReplacementPlugin(
+      /^date-fns[/\\]locale$/,
+      new RegExp(`\\.[/\\\\](${supportedLocales.join("|")})[/\\\\]index\\.js$`)
+    ),
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
