@@ -4,7 +4,7 @@ import { animateCheckbox } from "../utils/animations.js";
 import { Todo } from "../models/Todo.js";
 import { Project } from "../models/Project.js";
 
-export function setupAppEventHandlers(state, render) {
+function setupAppEventHandlers(state, render) {
   const mainContent = document.getElementById("main-content");
   const sidebar = document.getElementById("sidebar");
   const form = document.getElementById("edit-form");
@@ -61,8 +61,14 @@ export function setupAppEventHandlers(state, render) {
 
         if (projectName) {
           const newProject = new Project(projectName);
-          state.projects.push(newProject);
-          state.currentProjectId = newProject.id;
+
+          const newState = {
+            ...state,
+            projects: [...state.projects, newProject],
+            currentProjectId: newProject.id,
+          };
+
+          updateState(newState);
         }
 
         input.value = "";
@@ -203,3 +209,13 @@ export function setupAppEventHandlers(state, render) {
     closeModal();
   });
 }
+
+// function updateState(newState) {
+//   appState = newState;
+//   render(appState);
+//   saveState(appState);
+//   console.log("🔥 State updated and saved!", appState);
+// }
+
+// export { setupAppEventHandlers, updateState };
+export { setupAppEventHandlers };
