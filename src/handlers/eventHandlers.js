@@ -4,7 +4,7 @@ import { animateCheckbox } from "../utils/animations.js";
 import { Todo } from "../models/Todo.js";
 import { Project } from "../models/Project.js";
 
-function setupAppEventHandlers(state, render) {
+function setupAppEventHandlers(state, updateState) {
   const mainContent = document.getElementById("main-content");
   const sidebar = document.getElementById("sidebar");
   const form = document.getElementById("edit-form");
@@ -40,15 +40,23 @@ function setupAppEventHandlers(state, render) {
     const projectItem = e.target.closest(".project-item");
     if (projectItem) {
       const projectId = projectItem.dataset.projectId;
-      state.currentProjectId = projectId;
-      render(state);
+      // state.currentProjectId = projectId;
+      // render(state);
+      updateState({
+        ...state,
+        currentProjectId: projectId,
+      });
       return;
     }
 
     const newProjectBtn = e.target.closest(".new-project-btn");
     if (newProjectBtn) {
-      state.isCreatingProject = true;
-      render(state);
+      // state.isCreatingProject = true;
+      // render(state);
+      updateState({
+        ...state,
+        isCreatingProject: true,
+      });
       return;
     }
   });
@@ -67,18 +75,20 @@ function setupAppEventHandlers(state, render) {
             projects: [...state.projects, newProject],
             currentProjectId: newProject.id,
           };
-
+          input.value = "";
+          newState.isCreatingProject = false;
           updateState(newState);
+        } else {
+          input.value = "";
+          updateState({ ...state, isCreatingProject: false });
         }
-
-        input.value = "";
-        state.isCreatingProject = false;
-        render(state);
       } else if (e.key === "Escape") {
         const input = e.target;
         input.value = "";
-        state.isCreatingProject = false;
-        render(state);
+        updateState({
+          ...state,
+          isCreatingProject: false,
+        });
       }
     }
   });
@@ -88,8 +98,10 @@ function setupAppEventHandlers(state, render) {
     (e) => {
       if (e.target.id === "new-project-input") {
         e.target.value = "";
-        state.isCreatingProject = false;
-        render(state);
+        updateState({
+          ...state,
+          isCreatingProject: false,
+        });
       }
     },
     true
@@ -108,8 +120,13 @@ function setupAppEventHandlers(state, render) {
 
     if (e.target.closest(".delete-todo-btn")) {
       e.stopPropagation();
-      deleteTodoFromProject(currentProject, todoId);
-      render(state);
+      const newProjects = state.projects.map((p) => {
+        if (p.id === state.currentProjectId) {
+          deleteTodoFromProject(p, todoId);
+        }
+        return p;
+      });
+      updateState({ ...state, projects: newProjects });
       return;
     }
 
@@ -133,14 +150,17 @@ function setupAppEventHandlers(state, render) {
         todo.completed = true;
 
         const checkboxSVG = e.target.closest(".todo-checkbox-svg");
-        const todoItemElement = e.target.closest(".todo-items");
+        animateCheckbox(checkboxSVG, () => {
+          updateState({ ...state });
+        });
+        // const todoItemElement = e.target.closest(".todo-items");
 
-        todoItemElement.classList.add("is-completed");
+        // todoItemElement.classList.add("is-completed");
 
-        animateCheckbox(checkboxSVG, () => render(state));
+        // animateCheckbox(checkboxSVG, () => render(state));
       } else if (todo) {
         todo.completed = false;
-        render(state);
+        updateState({ ...state });
       }
       return;
     }
@@ -167,14 +187,6 @@ function setupAppEventHandlers(state, render) {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const currentProject = state.projects.find(
-      (p) => p.id === state.currentProjectId
-    );
-
-    if (!currentProject) {
-      console.error("Current project not found");
-      return;
-    }
 
     const title = document.getElementById("edit-title").value.trim();
     const description = document
@@ -183,17 +195,45 @@ function setupAppEventHandlers(state, render) {
     const dueDate = document.getElementById("edit-dueDate").value;
     const priority = activePriorityButton.dataset.priority;
 
+    let newProjects;
+
     if (currentEditingId !== null) {
-      const todo = currentProject.todos.find((t) => t.id === currentEditingId);
-      if (!todo) return;
-      Object.assign(todo, { title, description, dueDate, priority });
+      newProjects = state.projects.map((project) => {
+        if (project.id === state.currentProjectId) {
+          return {
+            ...project,
+
+            todos: project.todos.map((todo) => {
+              if (todo.id === currentEditingId) {
+                return { ...todo, title, description, dueDate, priority };
+              }
+              return todo;
+            }),
+          };
+        }
+        return project;
+      });
     } else {
       const newTodo = new Todo(title, description, dueDate, priority);
-      currentProject.todos.push(newTodo);
-    }
+      const newProjects = state.projects.map((project) => {
+        if (project.id === state.currentProjectId) {
+          return {
+            ...project,
+            todos: [...project.todos, newTodo],
+          };
+        } else {
+          return project;
+        }
+      });
+      const newState = {
+        ...state,
+        projects: newProjects,
+      };
 
+      updateState(newState);
+    }
     closeModal();
-    render(state);
+    form.reset();
   });
 
   priorityContainer.addEventListener("click", (e) => {
@@ -210,12 +250,4 @@ function setupAppEventHandlers(state, render) {
   });
 }
 
-// function updateState(newState) {
-//   appState = newState;
-//   render(appState);
-//   saveState(appState);
-//   console.log("🔥 State updated and saved!", appState);
-// }
-
-// export { setupAppEventHandlers, updateState };
 export { setupAppEventHandlers };
