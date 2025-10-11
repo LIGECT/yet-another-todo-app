@@ -213,6 +213,12 @@ function setupAppEventHandlers(state, updateState) {
         }
         return project;
       });
+
+      const newState = {
+        ...state,
+        projects: newProjects,
+      };
+      updateState(newState);
     } else {
       const newTodo = new Todo(title, description, dueDate, priority);
       const newProjects = state.projects.map((project) => {

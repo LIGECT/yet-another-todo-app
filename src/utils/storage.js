@@ -6,32 +6,43 @@ function saveState(state) {
 }
 
 function loadState() {
-  let currentLocal = localStorage.getItem("todoAppState");
+  let data = localStorage.getItem("todoAppState");
 
-  if (!currentLocal) {
+  if (!data) {
     return undefined;
   }
 
-  const parsedState = JSON.parse(currentLocal);
+  return JSON.parse(data, (key, value) => {
+    if (
+      value &&
+      typeof value === "object" &&
+      Array.isArray(value.todos) &&
+      value.name
+    ) {
+      const project = new Project(value.name);
+      project.id = value.id;
+      project.todos = value.todos;
+      return project;
+    }
 
-  const loadedProject = parsedState.projects.map((p) => {
-    const project = new Project(p.name);
-    project.id = p.id;
-    project.todos = p.todos.map(
-      (t) =>
-        new Todo(
-          t.title,
-          t.description,
-          t.dueDate,
-          t.priority,
-          t.completed,
-          t.id
-        )
-    );
-    return project;
+    if (
+      value &&
+      typeof value === "object" &&
+      value !== null &&
+      value.title &&
+      value.completed !== undefined
+    ) {
+      return new Todo(
+        value.title,
+        value.description,
+        value.dueDate,
+        value.priority,
+        value.completed,
+        value.id
+      );
+    }
+    return value;
   });
-
-  return { ...parsedState, projects: loadedProject };
 }
 
 export { saveState, loadState };
