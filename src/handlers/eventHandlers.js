@@ -4,7 +4,7 @@ import { animateCheckbox } from "../utils/animations.js";
 import { Todo } from "../models/Todo.js";
 import { Project } from "../models/Project.js";
 
-function setupAppEventHandlers(state, updateState) {
+function setupAppEventHandlers(getState, updateState) {
   const mainContent = document.getElementById("main-content");
   const sidebar = document.getElementById("sidebar");
   const form = document.getElementById("edit-form");
@@ -40,10 +40,9 @@ function setupAppEventHandlers(state, updateState) {
     const projectItem = e.target.closest(".project-item");
     if (projectItem) {
       const projectId = projectItem.dataset.projectId;
-      // state.currentProjectId = projectId;
-      // render(state);
+
       updateState({
-        ...state,
+        ...getState(),
         currentProjectId: projectId,
       });
       return;
@@ -51,10 +50,8 @@ function setupAppEventHandlers(state, updateState) {
 
     const newProjectBtn = e.target.closest(".new-project-btn");
     if (newProjectBtn) {
-      // state.isCreatingProject = true;
-      // render(state);
       updateState({
-        ...state,
+        ...getState(),
         isCreatingProject: true,
       });
       return;
@@ -71,22 +68,22 @@ function setupAppEventHandlers(state, updateState) {
           const newProject = new Project(projectName);
 
           const newState = {
-            ...state,
-            projects: [...state.projects, newProject],
+            ...getState(),
+            projects: [...getState().projects, newProject],
             currentProjectId: newProject.id,
+            isCreatingProject: false,
           };
           input.value = "";
-          newState.isCreatingProject = false;
           updateState(newState);
         } else {
           input.value = "";
-          updateState({ ...state, isCreatingProject: false });
+          updateState({ ...getState(), isCreatingProject: false });
         }
       } else if (e.key === "Escape") {
         const input = e.target;
         input.value = "";
         updateState({
-          ...state,
+          ...getState(),
           isCreatingProject: false,
         });
       }
@@ -99,7 +96,7 @@ function setupAppEventHandlers(state, updateState) {
       if (e.target.id === "new-project-input") {
         e.target.value = "";
         updateState({
-          ...state,
+          ...getState(),
           isCreatingProject: false,
         });
       }
@@ -111,8 +108,9 @@ function setupAppEventHandlers(state, updateState) {
     const todoItem = e.target.closest(".todo-items");
     if (!todoItem) return;
 
-    const currentProject = state.projects.find(
-      (p) => p.id === state.currentProjectId
+    const currentState = getState();
+    const currentProject = currentState.projects.find(
+      (p) => p.id === currentState.currentProjectId
     );
     if (!currentProject) return;
 
@@ -120,13 +118,18 @@ function setupAppEventHandlers(state, updateState) {
 
     if (e.target.closest(".delete-todo-btn")) {
       e.stopPropagation();
-      const newProjects = state.projects.map((p) => {
-        if (p.id === state.currentProjectId) {
-          deleteTodoFromProject(p, todoId);
+      const currentState = getState();
+
+      const newProjects = currentState.projects.map((p) => {
+        if (p.id === currentState.currentProjectId) {
+          return {
+            ...p,
+            todos: p.todos.filter((t) => t.id !== todoId),
+          };
         }
         return p;
       });
-      updateState({ ...state, projects: newProjects });
+      updateState({ ...currentState, projects: newProjects });
       return;
     }
 
@@ -144,23 +147,34 @@ function setupAppEventHandlers(state, updateState) {
 
     if (e.target.closest(".todo-checkbox-svg")) {
       e.stopPropagation();
+      const currentState = getState();
       const todo = currentProject.todos.find((t) => t.id === todoId);
+      if (!todo) return;
 
-      if (todo && !todo.completed) {
-        todo.completed = true;
+      const newProjects = currentState.projects.map((p) => {
+        if (p.id === currentState.currentProjectId) {
+          return {
+            ...p,
+            todos: p.todos.map((t) => {
+              if (t.id === todoId) {
+                return { ...t, completed: !t.completed };
+              }
+              return t;
+            }),
+          };
+        }
+        return p;
+      });
 
+      const newState = { ...currentState, projects: newProjects };
+
+      if (!todo.completed) {
         const checkboxSVG = e.target.closest(".todo-checkbox-svg");
         animateCheckbox(checkboxSVG, () => {
-          updateState({ ...state });
+          updateState(newState);
         });
-        // const todoItemElement = e.target.closest(".todo-items");
-
-        // todoItemElement.classList.add("is-completed");
-
-        // animateCheckbox(checkboxSVG, () => render(state));
-      } else if (todo) {
-        todo.completed = false;
-        updateState({ ...state });
+      } else {
+        updateState(newState);
       }
       return;
     }
@@ -170,8 +184,9 @@ function setupAppEventHandlers(state, updateState) {
 
   document.getElementById("fab-add-todo").addEventListener("click", (e) => {
     if (e.target.closest(".fab")) {
-      const currentProject = state.projects.find(
-        (p) => p.id === state.currentProjectId
+      const currentState = getState();
+      const currentProject = currentState.projects.find(
+        (p) => p.id === currentState.currentProjectId
       );
 
       if (!currentProject) {
@@ -188,6 +203,8 @@ function setupAppEventHandlers(state, updateState) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    console.log("📝 FORM SUBMIT START");
+
     const title = document.getElementById("edit-title").value.trim();
     const description = document
       .getElementById("edit-description")
@@ -198,11 +215,12 @@ function setupAppEventHandlers(state, updateState) {
     let newProjects;
 
     if (currentEditingId !== null) {
-      newProjects = state.projects.map((project) => {
-        if (project.id === state.currentProjectId) {
+      const currentState = getState();
+      console.log("✏️ EDITING mode");
+      newProjects = currentState.projects.map((project) => {
+        if (project.id === currentState.currentProjectId) {
           return {
             ...project,
-
             todos: project.todos.map((todo) => {
               if (todo.id === currentEditingId) {
                 return { ...todo, title, description, dueDate, priority };
@@ -213,31 +231,29 @@ function setupAppEventHandlers(state, updateState) {
         }
         return project;
       });
-
-      const newState = {
-        ...state,
-        projects: newProjects,
-      };
-      updateState(newState);
     } else {
+      const currentState = getState();
+      console.log(" CREATING mode");
       const newTodo = new Todo(title, description, dueDate, priority);
-      const newProjects = state.projects.map((project) => {
-        if (project.id === state.currentProjectId) {
+      newProjects = currentState.projects.map((project) => {
+        if (project.id === currentState.currentProjectId) {
           return {
             ...project,
             todos: [...project.todos, newTodo],
           };
-        } else {
-          return project;
         }
+        return project;
       });
-      const newState = {
-        ...state,
-        projects: newProjects,
-      };
-
-      updateState(newState);
     }
+
+    const newState = {
+      ...getState(),
+      projects: newProjects,
+    };
+    console.log("🌟 Final newState before update:", newState);
+    updateState(newState);
+
+    currentEditingId = null;
     closeModal();
     form.reset();
   });

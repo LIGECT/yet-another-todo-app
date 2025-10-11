@@ -12,9 +12,8 @@ function updateState(newState) {
   appState = newState;
   render(appState);
   saveState(appState);
-  console.log("🔥 State updated and saved!", appState);
 }
 
-setupAppEventHandlers(appState, updateState);
+setupAppEventHandlers(() => appState, updateState);
 
 render(appState);
