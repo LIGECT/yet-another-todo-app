@@ -34,3 +34,15 @@
   margin-top: 5rem;
   color: var(--text-color-light);
 }
+
+@media (max-width: 768px) {
+  #main-content {
+    padding: 1.5rem 1rem;
+    padding-bottom: 6rem;
+  }
+
+  .project-title-header {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+}

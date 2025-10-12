@@ -12,7 +12,7 @@ function loadState() {
     return undefined;
   }
 
-  return JSON.parse(data, (key, value) => {
+  return JSON.parse(data, (_key, value) => {
     if (
       value &&
       typeof value === "object" &&

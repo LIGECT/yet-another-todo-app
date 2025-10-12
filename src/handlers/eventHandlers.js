@@ -12,6 +12,7 @@ function setupAppEventHandlers(getState, updateState) {
     ".priority-segmented-control"
   );
   let currentEditingId = null;
+  const titleInput = document.getElementById("edit-title");
   let activePriorityButton = null;
 
   function fillForm(todo) {
@@ -203,9 +204,7 @@ function setupAppEventHandlers(getState, updateState) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    console.log("📝 FORM SUBMIT START");
-
-    const title = document.getElementById("edit-title").value.trim();
+    const title = titleInput.value.trim();
     const description = document
       .getElementById("edit-description")
       .value.trim();
@@ -214,9 +213,9 @@ function setupAppEventHandlers(getState, updateState) {
 
     let newProjects;
 
+    const currentState = getState();
+
     if (currentEditingId !== null) {
-      const currentState = getState();
-      console.log("✏️ EDITING mode");
       newProjects = currentState.projects.map((project) => {
         if (project.id === currentState.currentProjectId) {
           return {
@@ -232,8 +231,6 @@ function setupAppEventHandlers(getState, updateState) {
         return project;
       });
     } else {
-      const currentState = getState();
-      console.log(" CREATING mode");
       const newTodo = new Todo(title, description, dueDate, priority);
       newProjects = currentState.projects.map((project) => {
         if (project.id === currentState.currentProjectId) {
@@ -247,10 +244,9 @@ function setupAppEventHandlers(getState, updateState) {
     }
 
     const newState = {
-      ...getState(),
+      ...currentState,
       projects: newProjects,
     };
-    console.log("🌟 Final newState before update:", newState);
     updateState(newState);
 
     currentEditingId = null;
@@ -269,6 +265,16 @@ function setupAppEventHandlers(getState, updateState) {
   document.getElementById("cancel-edit-btn").addEventListener("click", (e) => {
     e.preventDefault();
     closeModal();
+  });
+
+  titleInput.addEventListener("input", () => {
+    if (titleInput.value.length > 30) {
+      titleInput.setCustomValidity(
+        "Title cannot be longer than 30 characters."
+      );
+    } else {
+      titleInput.setCustomValidity("");
+    }
   });
 }
 

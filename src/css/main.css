@@ -47,3 +47,9 @@ button {
   stroke-width: 2;
   vertical-align: middle;
 }
+
+@media (max-width: 768px) {
+  #app {
+    grid-template-columns: 1fr;
+  }
+}

@@ -163,3 +163,10 @@
 .priority-segmented-control[data-active="low"] .priority-slider {
   transform: translateX(200%);
 }
+
+@media (max-width: 768px) {
+  #edit-modal {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+}
