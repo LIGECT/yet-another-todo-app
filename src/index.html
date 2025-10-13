@@ -13,7 +13,17 @@
   </head>
   <body>
     <div id="app">
-      <div id="sidebar"></div>
+      <header class="mobile-header">
+        <button id="burger-btn"></button>
+        <div class="heading-branding">
+          <img src="" alt="Todo App Logo" class="header-logo" />
+          <span class="header-title">Todo App</span>
+        </div>
+      </header>
+      <div id="sidebar">
+        <button id="mobile-close-sidebar"></button>
+      </div>
+      <div id="sidebar-overlay" class="hidden"></div>
       <div id="main-content"></div>
     </div>
     <div id="modal-overlay" class="hidden">

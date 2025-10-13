@@ -1,6 +1,7 @@
 import "./css/main.css";
 import "./css/fab.css";
 import "./css/modal.css";
+import "./css/mobile-sidebar.css";
 import { appState as InitialData } from "./data/initialData.js";
 import { render } from "./handlers/ui.js";
 import { setupAppEventHandlers } from "./handlers/eventHandlers.js";

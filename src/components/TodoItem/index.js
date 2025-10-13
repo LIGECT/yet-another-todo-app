@@ -1,4 +1,4 @@
-import { createDeleteIcon, createEditIcon } from "./Icons.js";
+import { createDeleteIcon, createEditIcon } from "../../utils/Icons.js";
 import { formatDueDate } from "../../utils/date.js";
 
 export function createTodoItemElement(todo) {

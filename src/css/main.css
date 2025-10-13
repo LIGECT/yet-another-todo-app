@@ -18,6 +18,14 @@
   box-sizing: border-box;
 }
 
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: var(--font-family);
   background-color: var(--background-color);
@@ -51,5 +59,6 @@ button {
 @media (max-width: 768px) {
   #app {
     grid-template-columns: 1fr;
+    grid-template-rows: 10% 1fr;
   }
 }

@@ -1,5 +1,6 @@
 import { renderSidebar } from "../components/Sidebar/index.js";
 import { renderMainContent } from "../components/MainContent/index.js";
+import { initializeMobileMenu } from "../handlers/sidebarHandler.js";
 
 export function render(state) {
   const currentProject = state.projects.find(
@@ -12,6 +13,7 @@ export function render(state) {
     state.isCreatingProject
   );
   renderMainContent(currentProject);
+  initializeMobileMenu();
 }
 
 export function openModal(options) {

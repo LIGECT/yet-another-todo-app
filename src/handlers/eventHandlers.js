@@ -1,4 +1,3 @@
-import { deleteTodoFromProject } from "../utils/deleteButton.js";
 import { openModal, closeModal } from "./ui.js";
 import { animateCheckbox } from "../utils/animations.js";
 import { Todo } from "../models/Todo.js";
