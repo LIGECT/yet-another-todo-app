@@ -10,7 +10,8 @@ export function render(state) {
   renderSidebar(
     state.projects,
     state.currentProjectId,
-    state.isCreatingProject
+    state.isCreatingProject,
+    state.editingProjectId
   );
   renderMainContent(currentProject);
   initializeMobileMenu();

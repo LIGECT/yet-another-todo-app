@@ -14,7 +14,7 @@
   .mobile-header {
     height: fit-content;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1rem;
     background-color: var(--card-background);
@@ -37,8 +37,8 @@
   }
 
   .header-logo {
-    width: 42px;
-    height: 42px;
+    width: 60px;
+    height: 60px;
   }
 
   .header-title {

@@ -32,6 +32,9 @@
   font-weight: 600;
   color: var(--text-color-light);
   transition: all 0.2s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .project-item:hover {
@@ -42,6 +45,50 @@
 .project-item.active-project {
   background-color: var(--accent-color);
   color: white;
+}
+
+.project-action {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.project-item:hover .project-action {
+  opacity: 1;
+}
+
+.edit-project-btn,
+.delete-project-btn {
+  color: var(--text-color-light);
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.edit-project-btn:hover {
+  color: var(--accent-color);
+  background-color: rgba(0, 196, 180, 0.1);
+}
+
+.delete-project-btn:hover {
+  color: var(--accent-color-danger);
+  background-color: rgba(255, 107, 61, 0.1);
+}
+
+.project-item.active-project .edit-project-btn,
+.project-item.active-project .delete-project-btn {
+  color: white;
+}
+
+.project-item.active-project .edit-project-btn:hover,
+.project-item.active-project .delete-project-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.project-item.editing {
+  background-color: transparent;
+  padding: 0;
+  border: 1px solid var(--accent-color);
 }
 
 .new-project-container {
@@ -72,20 +119,20 @@
   display: none;
 }
 
-.new-project-input {
-  border: 1px solid transparent;
+.new-project-input,
+.editing-project-input {
+  border: none;
   border-radius: var(--border-radius);
   font-family: inherit;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   font-weight: 600;
   font-size: 1rem;
   width: 100%;
-  border-color: var(--accent-color);
   background-color: var(--card-background);
 }
 
-.new-project-input:focus {
+.new-project-input:focus,
+.editing-project-input:focus {
   outline: none;
-  border: 1px solid var(--accent-color);
   box-shadow: 0 0 5px rgba(0, 196, 180, 0.5);
 }

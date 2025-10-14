@@ -10,9 +10,10 @@ function setupAppEventHandlers(getState, updateState) {
   const priorityContainer = document.querySelector(
     ".priority-segmented-control"
   );
-  let currentEditingId = null;
   const titleInput = document.getElementById("edit-title");
+  let currentEditingId = null;
   let activePriorityButton = null;
+  let editingProjectId = null;
 
   function fillForm(todo) {
     document.getElementById("edit-title").value = todo.title;
@@ -40,21 +41,73 @@ function setupAppEventHandlers(getState, updateState) {
     const projectItem = e.target.closest(".project-item");
     if (projectItem) {
       const projectId = projectItem.dataset.projectId;
-
-      updateState({
-        ...getState(),
-        currentProjectId: projectId,
-      });
-      return;
+      const currentState = getState();
+      if (currentState.currentProjectId !== projectId) {
+        updateState({
+          ...currentState,
+          currentProjectId: projectId,
+        });
+      }
     }
 
     const newProjectBtn = e.target.closest(".new-project-btn");
     if (newProjectBtn) {
       updateState({
         ...getState(),
+        editingProjectId: null,
         isCreatingProject: true,
       });
       return;
+    }
+
+    const deleteProjectBtn = e.target.closest(".delete-project-btn");
+    if (deleteProjectBtn) {
+      e.stopPropagation();
+
+      const projectItem = e.target.closest(".project-item");
+      const projectIdToDelete = projectItem.dataset.projectId;
+
+      const currentState = getState();
+
+      const indexToDelete = currentState.projects.findIndex(
+        (p) => p.id === projectIdToDelete
+      );
+
+      const newProjects = currentState.projects.filter(
+        (p) => p.id !== projectIdToDelete
+      );
+
+      let newCurrentProjectId = null;
+
+      if (newProjects.length > 0) {
+        if (indexToDelete === 0) {
+          newCurrentProjectId = newProjects[0].id;
+        } else {
+          newCurrentProjectId = newProjects[indexToDelete - 1].id;
+        }
+      }
+
+      updateState({
+        ...currentState,
+        projects: newProjects,
+        currentProjectId: newCurrentProjectId,
+      });
+      return;
+    }
+
+    const editProjectBtn = e.target.closest(".edit-project-btn");
+    if (editProjectBtn) {
+      e.stopPropagation();
+
+      const projectItem = e.target.closest(".project-item");
+      const projectIdToEdit = projectItem.dataset.projectId;
+
+      const currentState = getState();
+      updateState({
+        ...currentState,
+        editingProjectId: projectIdToEdit,
+        isCreatingProject: false,
+      });
     }
   });
 
@@ -87,6 +140,37 @@ function setupAppEventHandlers(getState, updateState) {
           isCreatingProject: false,
         });
       }
+    } else if (e.target.closest(".editing-project-input")) {
+      if (e.key === "Enter") {
+        const input = e.target;
+        const newName = input.value.trim();
+        const currentState = getState();
+
+        if (newName) {
+          const newProject = currentState.projects.map((p) => {
+            if (p.id === currentState.editingProjectId) {
+              return { ...p, name: newName };
+            }
+            return p;
+          });
+          updateState({
+            ...currentState,
+            projects: newProject,
+            editingProjectId: null,
+            isCreatingProject: false,
+          });
+        } else {
+          updateState({
+            ...currentState,
+            editingProjectId: null,
+          });
+        }
+      } else if (e.key === "Escape") {
+        updateState({
+          ...getState(),
+          editingProjectId: null,
+        });
+      }
     }
   });
 
@@ -99,6 +183,14 @@ function setupAppEventHandlers(getState, updateState) {
           ...getState(),
           isCreatingProject: false,
         });
+      } else if (e.target.closest(".editing-project-input")) {
+        const currentState = getState();
+        if (currentState.editingProjectId !== null) {
+          updateState({
+            ...getState(),
+            editingProjectId: null,
+          });
+        }
       }
     },
     true
