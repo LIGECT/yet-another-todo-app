@@ -1,4 +1,4 @@
-import { createElement, Trash2, Edit3, Menu, X } from "lucide";
+import { createElement, Trash2, Edit3, Menu, X, FolderPlus } from "lucide";
 
 function createDeleteIcon() {
   const icon = createElement(Trash2);
@@ -23,5 +23,16 @@ function createCloseIcon() {
   icon.classList.add("icon", "icon-close");
   return icon;
 }
+function createFolderPlusIcon() {
+  const icon = createElement(FolderPlus);
+  icon.classList.add("icon", "icon-folder-plus");
+  return icon;
+}
 
-export { createDeleteIcon, createEditIcon, createMenuIcon, createCloseIcon };
+export {
+  createDeleteIcon,
+  createEditIcon,
+  createMenuIcon,
+  createCloseIcon,
+  createFolderPlusIcon,
+};

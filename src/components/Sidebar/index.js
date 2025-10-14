@@ -1,6 +1,10 @@
 import imageLogo from "../../assets/images/logo.svg";
 import "./Sidebar.css";
-import { createDeleteIcon, createEditIcon } from "../../utils/Icons.js";
+import {
+  createDeleteIcon,
+  createEditIcon,
+  createFolderPlusIcon,
+} from "../../utils/Icons.js";
 
 export function renderSidebar(
   projects,
@@ -52,45 +56,60 @@ export function renderSidebar(
 
   const projectsList = sidebarContainer.querySelector(".projects-list");
   projectsList.replaceChildren();
-  projects.forEach((project) => {
-    const projectBlock = document.createElement("div");
-    projectBlock.dataset.projectId = project.id;
-    projectBlock.className = "project-item";
-    if (project.id === currentProjectId) {
-      projectBlock.classList.add("active-project");
-    }
-    projectsList.appendChild(projectBlock);
 
-    if (project.id === editingProjectId) {
-      projectBlock.classList.add("editing");
-      const input = document.createElement("input");
-      input.type = "text";
-      input.className = "editing-project-input";
-      input.value = project.name;
-      input.placeholder = "Rename project...";
-      projectBlock.append(input);
-      input.focus();
-    } else {
-      const projectName = document.createElement("span");
-      projectName.textContent = project.name;
+  if (projects.length === 0) {
+    const emptyStateContainer = document.createElement("div");
+    emptyStateContainer.className = "projects-empty-state";
 
-      const deleteButton = document.createElement("button");
-      deleteButton.className = "delete-project-btn";
-      const trashIcon = createDeleteIcon();
-      deleteButton.append(trashIcon);
+    const folderIcon = createFolderPlusIcon();
 
-      const editButton = document.createElement("button");
-      editButton.className = "edit-project-btn";
-      const editIcon = createEditIcon();
-      editButton.append(editIcon);
+    const emptyStateMessage = document.createElement("p");
+    emptyStateMessage.className = "empty-state-message";
+    emptyStateMessage.textContent = "Create your first project";
 
-      const actions = document.createElement("div");
-      actions.className = "project-action";
-      actions.append(editButton, deleteButton);
+    emptyStateContainer.append(folderIcon, emptyStateMessage);
+    projectsList.appendChild(emptyStateContainer);
+  } else {
+    projects.forEach((project) => {
+      const projectBlock = document.createElement("div");
+      projectBlock.dataset.projectId = project.id;
+      projectBlock.className = "project-item";
+      if (project.id === currentProjectId) {
+        projectBlock.classList.add("active-project");
+      }
+      projectsList.appendChild(projectBlock);
 
-      projectBlock.append(projectName, actions);
-    }
-  });
+      if (project.id === editingProjectId) {
+        projectBlock.classList.add("editing");
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "editing-project-input";
+        input.value = project.name;
+        input.placeholder = "Rename project...";
+        projectBlock.append(input);
+        input.focus();
+      } else {
+        const projectName = document.createElement("span");
+        projectName.textContent = project.name;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete-project-btn";
+        const trashIcon = createDeleteIcon();
+        deleteButton.append(trashIcon);
+
+        const editButton = document.createElement("button");
+        editButton.className = "edit-project-btn";
+        const editIcon = createEditIcon();
+        editButton.append(editIcon);
+
+        const actions = document.createElement("div");
+        actions.className = "project-action";
+        actions.append(editButton, deleteButton);
+
+        projectBlock.append(projectName, actions);
+      }
+    });
+  }
 
   const newProjectButton = sidebarContainer.querySelector(".new-project-btn");
   const newProjectInput = sidebarContainer.querySelector("#new-project-input");

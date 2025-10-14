@@ -136,3 +136,19 @@
   outline: none;
   box-shadow: 0 0 5px rgba(0, 196, 180, 0.5);
 }
+
+.projects-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: #888;
+}
+
+.projects-empty-state .icon {
+  width: 48px;
+  height: 48px;
+  stroke-width: 1.5;
+}
