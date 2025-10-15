@@ -52,11 +52,13 @@ export function createTodoItemElement(todo) {
 
   const deleteButton = document.createElement("button");
   deleteButton.className = "delete-todo-btn";
+  deleteButton.setAttribute("aria-label", `Delete task: ${todo.title}`);
   const trashIcon = createDeleteIcon();
   deleteButton.append(trashIcon);
 
   const editButton = document.createElement("button");
   editButton.className = "edit-todo-btn";
+  editButton.setAttribute("aria-label", `Edit task: ${todo.title}`);
   const editIcon = createEditIcon();
   editButton.append(editIcon);
 

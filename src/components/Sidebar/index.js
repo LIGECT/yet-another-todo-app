@@ -25,7 +25,6 @@ export function renderSidebar(
     logo.width = 80;
     logo.height = 80;
     logo.alt = "Abstract logo for a productivity app.";
-    logo.loading = "lazy";
 
     const appTitle = document.createElement("h1");
     appTitle.className = "app-title";
@@ -94,11 +93,19 @@ export function renderSidebar(
 
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete-project-btn";
+        deleteButton.setAttribute(
+          "aria-label",
+          `Delete project: ${project.name}`
+        );
         const trashIcon = createDeleteIcon();
         deleteButton.append(trashIcon);
 
         const editButton = document.createElement("button");
         editButton.className = "edit-project-btn";
+        editButton.setAttribute(
+          "aria-label",
+          `Rename project: ${project.name}`
+        );
         const editIcon = createEditIcon();
         editButton.append(editIcon);
 

@@ -31,7 +31,8 @@ export function renderMainContent(project) {
       emptyStatePicture.src = EmptyState;
       emptyStatePicture.alt =
         "Minimalist empty state illustration for a to-do list app";
-      emptyStatePicture.loading = "lazy";
+      emptyStatePicture.width = 200;
+      emptyStatePicture.height = 200;
 
       const emptyStateMessage = document.createElement("h3");
       emptyStateMessage.className = "empty-state-message";
