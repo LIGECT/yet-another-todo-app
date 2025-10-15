@@ -19,6 +19,7 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      favicon: "./src/assets/images/favicon.ico",
     }),
     new MiniCssExtractPlugin({
       filename: "build.[contenthash].css",
