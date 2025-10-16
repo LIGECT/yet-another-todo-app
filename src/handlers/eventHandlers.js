@@ -177,6 +177,10 @@ function setupAppEventHandlers(getState, updateState) {
   sidebar.addEventListener(
     "blur",
     (e) => {
+      if (e.relatedTarget && e.relatedTarget.closest("#fab-add-todo")) {
+        return;
+      }
+
       if (e.target.id === "new-project-input") {
         e.target.value = "";
         updateState({
@@ -185,7 +189,7 @@ function setupAppEventHandlers(getState, updateState) {
         });
       } else if (e.target.closest(".editing-project-input")) {
         const currentState = getState();
-        if (currentState.editingProjectId !== null) {
+        if (currentState.editingProjectId) {
           updateState({
             ...getState(),
             editingProjectId: null,
