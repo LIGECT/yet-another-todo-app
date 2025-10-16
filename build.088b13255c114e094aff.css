@@ -16,15 +16,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-button,
+/* button,
 a,
 input,
 textarea,
 select {
   -webkit-tap-highlight-color: transparent;
-}
+} */
 
 body {
   font-family: var(--font-family);
@@ -166,9 +167,9 @@ button {
   color: var(--text-color);
 }
 
-.form-field input[type="text"],
-.form-field input[type="date"],
-.form-field textarea {
+#edit-title,
+#edit-modal .form-field input[type="date"],
+#edit-modal .form-field textarea {
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
@@ -179,14 +180,14 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
-.form-field textarea {
+#edit-modal .form-field textarea {
   min-height: 100px;
   resize: vertical;
 }
 
-.form-field input[type="text"]:focus,
-.form-field input[type="date"]:focus,
-.form-field textarea:focus {
+#edit-title:focus,
+#edit-modal .form-field input[type="date"]:focus,
+#edit-modal .form-field textarea:focus {
   outline: none;
   border-color: var(--accent-color);
   box-shadow: 0 0 0 3px rgba(0, 196, 180, 0.2);
