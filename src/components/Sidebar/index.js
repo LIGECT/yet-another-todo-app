@@ -91,29 +91,32 @@ export function renderSidebar(
         const projectName = document.createElement("span");
         projectName.textContent = project.name;
 
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "delete-project-btn";
-        deleteButton.setAttribute(
-          "aria-label",
-          `Delete project: ${project.name}`
-        );
-        const trashIcon = createDeleteIcon();
-        deleteButton.append(trashIcon);
+        projectBlock.append(projectName);
 
-        const editButton = document.createElement("button");
-        editButton.className = "edit-project-btn";
-        editButton.setAttribute(
-          "aria-label",
-          `Rename project: ${project.name}`
-        );
-        const editIcon = createEditIcon();
-        editButton.append(editIcon);
+        if (project.id === currentProjectId) {
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "delete-project-btn";
+          deleteButton.setAttribute(
+            "aria-label",
+            `Delete project: ${project.name}`
+          );
+          const trashIcon = createDeleteIcon();
+          deleteButton.append(trashIcon);
 
-        const actions = document.createElement("div");
-        actions.className = "project-action";
-        actions.append(editButton, deleteButton);
+          const editButton = document.createElement("button");
+          editButton.className = "edit-project-btn";
+          editButton.setAttribute(
+            "aria-label",
+            `Rename project: ${project.name}`
+          );
+          const editIcon = createEditIcon();
+          editButton.append(editIcon);
 
-        projectBlock.append(projectName, actions);
+          const actions = document.createElement("div");
+          actions.className = "project-action";
+          actions.append(editButton, deleteButton);
+          projectBlock.append(actions);
+        }
       }
     });
   }

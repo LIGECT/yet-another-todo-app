@@ -50,13 +50,13 @@
 .project-action {
   display: flex;
   gap: 0.5rem;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  /* opacity: 0;
+  transition: opacity 0.2s ease-in-out; */
 }
 
-.project-item:hover .project-action {
+/* .project-item:hover .project-action {
   opacity: 1;
-}
+} */
 
 .edit-project-btn,
 .delete-project-btn {
