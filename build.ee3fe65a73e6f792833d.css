@@ -448,13 +448,13 @@ button {
 .project-action {
   display: flex;
   gap: 0.5rem;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  /* opacity: 0;
+  transition: opacity 0.2s ease-in-out; */
 }
 
-.project-item:hover .project-action {
+/* .project-item:hover .project-action {
   opacity: 1;
-}
+} */
 
 .edit-project-btn,
 .delete-project-btn {
@@ -631,9 +631,11 @@ button {
   padding: 1rem 1.5rem;
   margin-bottom: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-  transition: all 0.2s ease-in-out;
+  transition: padding-bottom 0.3s ease-in-out, transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
   position: relative;
   overflow: hidden;
+  flex-wrap: wrap;
 }
 
 .todo-items:hover {
@@ -676,7 +678,6 @@ button {
 
 .todo-checkbox:hover {
   transform: scale(1.2);
-  /* filter: drop-shadow(0 0 5px var(--accent-color)); */
 }
 
 .todo-checkbox-svg {
@@ -706,7 +707,6 @@ button {
 .todo-title {
   font-weight: 600;
   position: relative;
-  /* width: max-content; */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -746,20 +746,24 @@ button {
 .todo-details {
   opacity: 0;
   overflow: hidden;
-  transition: opacity 0.3s ease-in-out, padding-top 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out,
+    padding-top 0.3s ease-in-out;
   flex-basis: 100%;
   padding-top: 0;
+  pointer-events: none;
+  max-height: 0;
 }
 
 .todo-items.is-expanded {
-  flex-wrap: wrap;
   padding-bottom: 1.5rem;
+  pointer-events: auto;
 }
 
 .todo-items.is-expanded .todo-details {
   padding-top: 1rem;
   opacity: 1;
+  pointer-events: auto;
+  max-height: 300px;
 }
 
 .todo-description {
