@@ -19,14 +19,6 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* button,
-a,
-input,
-textarea,
-select {
-  -webkit-tap-highlight-color: transparent;
-} */
-
 body {
   font-family: var(--font-family);
   background-color: var(--background-color);
@@ -38,7 +30,7 @@ body {
 #app {
   display: grid;
   grid-template-columns: 280px 1fr;
-  height: 100vh;
+  height: 100dvh;
 }
 
 button {
