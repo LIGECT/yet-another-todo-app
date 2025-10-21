@@ -14,6 +14,7 @@ function setupAppEventHandlers(getState, updateState) {
   let currentEditingId = null;
   let activePriorityButton = null;
   let editingProjectId = null;
+  let justPressedEnter = false;
 
   function fillForm(todo) {
     document.getElementById("edit-title").value = todo.title;
@@ -114,6 +115,7 @@ function setupAppEventHandlers(getState, updateState) {
   sidebar.addEventListener("keydown", (e) => {
     if (e.target.id === "new-project-input") {
       if (e.key === "Enter") {
+        justPressedEnter = true;
         const input = e.target;
         const projectName = input.value.trim();
 
@@ -140,8 +142,12 @@ function setupAppEventHandlers(getState, updateState) {
           isCreatingProject: false,
         });
       }
+      setTimeout(() => {
+        justPressedEnter = false;
+      }, 100);
     } else if (e.target.closest(".editing-project-input")) {
       if (e.key === "Enter") {
+        justPressedEnter = true;
         const input = e.target;
         const newName = input.value.trim();
         const currentState = getState();
@@ -165,6 +171,9 @@ function setupAppEventHandlers(getState, updateState) {
             editingProjectId: null,
           });
         }
+        setTimeout(() => {
+          justPressedEnter = false;
+        }, 100);
       } else if (e.key === "Escape") {
         updateState({
           ...getState(),
@@ -177,9 +186,9 @@ function setupAppEventHandlers(getState, updateState) {
   sidebar.addEventListener(
     "blur",
     (e) => {
-      if (e.relatedTarget && e.relatedTarget.closest("#fab-add-todo")) {
-        return;
-      }
+      if (e.relatedTarget && e.relatedTarget.closest("#fab-add-todo")) return;
+
+      if (justPressedEnter) return;
 
       if (e.target.id === "new-project-input") {
         e.target.value = "";
