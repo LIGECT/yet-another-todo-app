@@ -2,6 +2,8 @@
 
 A simple and intuitive vanilla JavaScript Todo App to organize your tasks and projects. Built with a focus on clean UI, good user experience, and zero framework dependencies.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open-brightgreen?style=for-the-badge)](https://ligect.github.io/yet-another-todo-app/)
+
 ![App Screenshot](docs/images/screenshot.png)
 
 ## Features
